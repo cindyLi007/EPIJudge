@@ -8,9 +8,16 @@ import java.util.List;
 
 public class SortedArrayRemoveDups {
   // Returns the number of valid entries after deletion.
+  // Time: O(N), Space: O(1)
   public static int deleteDuplicates(List<Integer> A) {
-    // Implement this placeholder.
-    return 0;
+    int  j=-1;
+    for (int i=0; i<A.size(); i++) {
+      // Notice, since element in List is Integer, even value is same, A.get(i)==A.get(j) always return false;
+      if (j==-1 || Integer.compare(A.get(i), A.get(j))!=0) {
+        A.set(++j, A.get(i));
+      }
+    }
+    return j+1;
   }
 
   @EpiTest(testfile = "sorted_array_remove_dups.tsv")

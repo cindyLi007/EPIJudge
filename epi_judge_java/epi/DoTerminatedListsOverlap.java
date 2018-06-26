@@ -9,8 +9,12 @@ public class DoTerminatedListsOverlap {
 
   public static ListNode<Integer>
   overlappingNoCycleLists(ListNode<Integer> l0, ListNode<Integer> l1) {
-    // Implement this placeholder.
-    return null;
+    ListNode<Integer> pa = l0, pb = l1;
+    while (pa!=pb) {
+      pa = pa == null ? l1 : pa.next;
+      pb = pb == null ? l0 : pb.next;
+    }
+    return pa;
   }
 
   @EpiTest(testfile = "do_terminated_lists_overlap.tsv")

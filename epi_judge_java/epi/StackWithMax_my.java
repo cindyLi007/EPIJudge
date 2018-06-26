@@ -10,22 +10,13 @@ import java.util.Deque;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class StackWithMax {
-
-  private static class MaxWithCount {
-    Integer value;
-    Integer count;
-
-    public MaxWithCount(Integer value, Integer count) {
-      this.value = value;
-      this.count = count;
-    }
-  }
+// Time O(1) for each method, space is O(N). Notice this is different with EPI solutions
+public class StackWithMax_my {
 
   public static class Stack {
 
     Deque<Integer> deque = new ArrayDeque();
-    Deque<MaxWithCount> maxDeque = new ArrayDeque();
+    Deque<Integer> maxDeque = new ArrayDeque();
 
     public boolean empty() {
       return deque.isEmpty();
@@ -35,31 +26,21 @@ public class StackWithMax {
       if (maxDeque.isEmpty()) {
         throw new IllegalStateException("max(): empty stack");
       }
-      return maxDeque.peek().value;
+      return maxDeque.peek();
     }
 
     public Integer pop() {
       if (empty()) {
         throw new IllegalStateException("max(): empty stack");
       }
-      Integer res = deque.pop();
-      if (res==max()) {
-        if (maxDeque.peek().count == 1) {
-          maxDeque.pop();
-        } else {
-          maxDeque.peek().count--;
-        }
-      }
-      return res;
+      maxDeque.pop();
+      return deque.pop();
     }
 
     public void push(Integer x) {
+      if (maxDeque.isEmpty() || x>maxDeque.peek()) maxDeque.push(x);
+      else maxDeque.push(maxDeque.peek());
       deque.push(x);
-      if (maxDeque.isEmpty() || x > maxDeque.peek().value) {
-        maxDeque.push(new MaxWithCount(x, 1));
-      } else if (x == maxDeque.peek().value) {
-        maxDeque.peek().count++;
-      }
     }
   }
 

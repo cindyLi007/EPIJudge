@@ -3,15 +3,34 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TreeLevelOrder {
   @EpiTest(testfile = "tree_level_order.tsv")
 
   public static List<List<Integer>>
   binaryTreeDepthOrder(BinaryTreeNode<Integer> tree) {
-    // Implement this placeholder.
-    return null;
+    List<List<Integer>> res = new ArrayList<>();
+
+    if (tree==null) {
+      return res;
+    }
+
+    List<BinaryTreeNode<Integer>> currentDepthNode = Arrays.asList(tree);
+    while (!currentDepthNode.isEmpty()) {
+      res.add(currentDepthNode.stream()
+          .map(node -> node.data)
+          .collect(Collectors.toList()));
+      currentDepthNode = currentDepthNode.stream()
+          .map(node -> Arrays.asList(node.left, node.right))
+          .flatMap(List::stream)
+          .filter(child -> child!=null)
+          .collect(Collectors.toList());
+    }
+    return res;
   }
 
   public static void main(String[] args) {

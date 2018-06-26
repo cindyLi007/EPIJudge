@@ -17,7 +17,7 @@ public class DoTerminatedListsOverlap {
       l1 = advanceListByK(l1Length - l0Length, l1);
     }
 
-    while (l0 != null && l1 != null && l0 != l1) {
+    while (l0 != l1) {
       l0 = l0.next;
       l1 = l1.next;
     }

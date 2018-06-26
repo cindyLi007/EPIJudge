@@ -11,9 +11,15 @@ import java.util.List;
 
 public class EvenOddArray {
 
+  // Time O(N), Space O(1)
   public static void evenOdd(List<Integer> A) {
-    // Implement this placeholder.
-    return;
+    int left = 0, right = A.size() - 1;
+    while (left < right) {
+      if (A.get(left) % 2 == 0) left++;
+      else {
+        Collections.swap(A, left, right--);
+      }
+    }
   }
 
   @EpiTest(testfile = "even_odd_array.tsv")

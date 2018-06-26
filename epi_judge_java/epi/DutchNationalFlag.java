@@ -6,14 +6,29 @@ import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DutchNationalFlag {
   public enum Color { RED, WHITE, BLUE }
 
   public static void dutchFlagPartition(int pivotIndex, List<Color> A) {
-    // Implement this placeholder.
-    return;
+    Color pivot = A.get(pivotIndex);
+    /**
+     * left is the first left element == pivot
+     * right is left elem of the first left element > pivot
+     */
+    int left=0, i=0, right=A.size()-1;
+    while (i<=right) { // must be i<=right, because index right element belongs to unclassified category
+      Color current = A.get(i);
+      if (current.ordinal()<pivot.ordinal()) {
+        Collections.swap(A, left++, i++);
+      } else if (current.ordinal() == pivot.ordinal()) {
+        i++;
+      } else {
+        Collections.swap(A, i, right--);
+      }
+    }
   }
 
   @EpiTest(testfile = "dutch_national_flag.tsv")

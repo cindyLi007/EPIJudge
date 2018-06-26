@@ -8,7 +8,19 @@ import epi.test_framework.TimedExecutor;
 public class IsListCyclic {
 
   public static ListNode<Integer> hasCycle(ListNode<Integer> head) {
-    // Implement this placeholder.
+    ListNode<Integer> fast = head, slow = head;
+    while (fast != null && fast.next != null) {
+      slow = slow.next;
+      fast = fast.next.next;
+      if (fast == slow) {
+        slow = head;
+        while (fast != slow) {
+          fast = fast.next;
+          slow = slow.next;
+        }
+        return slow;
+      }
+    }
     return null;
   }
 
