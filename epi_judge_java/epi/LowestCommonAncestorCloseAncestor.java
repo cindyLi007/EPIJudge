@@ -6,11 +6,35 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class LowestCommonAncestorCloseAncestor {
 
+  // Time: O(D): D is the farthest distance to LCA, Space: O(D0+D1)
   public static BinaryTree<Integer> LCA(BinaryTree<Integer> node0,
                                         BinaryTree<Integer> node1) {
-    // Implement this placeholder.
+    Set<BinaryTree> ancestorSet = new HashSet<>();
+    // must use "||" instead of "&&", because when one node hit to root(null), maybe the other node still in lower layer,
+    // need "wait" the slower one hit till common ancestor
+    while (node0 != null || node1 != null) {
+      if (node0 == node1) {
+        return node0;
+      }
+      if (node0 != null) {
+        // use "add" result to check whether node is in set, so we need not first use "contains" to check then use "add" to add node to set
+        if (!ancestorSet.add(node0)) {
+          return node0;
+        }
+        node0 = node0.parent;
+      }
+      if (node1 != null) {
+        if (!ancestorSet.add(node1)) {
+          return node1;
+        }
+        node1 = node1.parent;
+      }
+    }
     return null;
   }
 

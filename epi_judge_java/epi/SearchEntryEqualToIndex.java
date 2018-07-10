@@ -7,11 +7,24 @@ import epi.test_framework.TimedExecutor;
 
 import java.util.List;
 
+// Time: O(logN), Space: O(1)
 public class SearchEntryEqualToIndex {
 
   public static int searchEntryEqualToItsIndex(List<Integer> A) {
-    // Implement this placeholder.
-    return 0;
+    int low = 0, high = A.size() - 1;
+
+    while (low <= high) {
+      int mid = low + (high - low) / 2;
+      if (A.get(mid)==mid) {
+        return mid;
+      }
+      if (A.get(mid)<mid) {
+        low = mid+1;
+      } else {
+        high = mid-1;
+      }
+    }
+    return -1;
   }
 
   @EpiTest(testfile = "search_entry_equal_to_index.tsv")

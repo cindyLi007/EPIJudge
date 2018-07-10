@@ -20,9 +20,37 @@ public class KthNodeInTree {
     }
   }
 
+  // Time: O(h), Space: O(h)
+  public static BinaryTreeNode<Integer>
+  findKthNodeBinaryTree_recursive(BinaryTreeNode<Integer> tree, int k) {
+    if (tree.size < k) {
+      return null;
+    }
+    if (tree.left == null || tree.left.size < k) {
+      // go to right-side
+      int leftSize = tree.left == null ? 0 : tree.left.size;
+      if (k == leftSize + 1) return tree;
+      return findKthNodeBinaryTree(tree.right, k - leftSize - 1);
+    } else {
+      return findKthNodeBinaryTree(tree.left, k);
+    }
+  }
+
+  // Time: O(h), Space: O(1)
   public static BinaryTreeNode<Integer>
   findKthNodeBinaryTree(BinaryTreeNode<Integer> tree, int k) {
-    // Implement this placeholder.
+    while (tree!=null) {
+      if (tree.left==null || tree.left.size<k) {
+        int leftSize = tree.left == null ? 0 : tree.left.size;
+        if (k==1+leftSize) return tree;
+        else {
+          tree=tree.right;
+          k-=leftSize+1;
+        }
+      } else {
+        tree=tree.left;
+      }
+    }
     return null;
   }
 

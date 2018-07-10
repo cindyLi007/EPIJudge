@@ -25,12 +25,12 @@ public class FindKBalancedNode {
   }
 
   private static BalanceStatusWithHeight checkKBalance(BinaryTreeNode<Integer> tree, int k) {
-    if (tree==null) {
+    if (tree == null) {
       return new BalanceStatusWithHeight(true, 0, tree);
     }
 
     BalanceStatusWithHeight left = checkKBalance(tree.left, k);
-    BalanceStatusWithHeight right = checkKBalance(tree .right, k);
+    BalanceStatusWithHeight right = checkKBalance(tree.right, k);
 
     if (!left.isKBalanced) {
       return left;

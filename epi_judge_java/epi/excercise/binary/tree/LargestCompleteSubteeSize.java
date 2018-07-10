@@ -39,10 +39,10 @@ public class LargestCompleteSubteeSize {
         int size = left.size + right.size + 1;
         return new CompleteStatusWithHeightSize(true, height, size);
       } else {
-        return new CompleteStatusWithHeightSize(false, -1, Math.max(left.size, right.size));
+      return new CompleteStatusWithHeightSize(false, -1, Math.max(left.size, right.size));
       }
     } else { // any subtree is not complete, tree could not be a complete tree, so only return the largest size of subtree
-        return new CompleteStatusWithHeightSize(false, -1, Math.max(left.size, right.size));
+      return new CompleteStatusWithHeightSize(false, -1, Math.max(left.size, right.size));
     }
   }
 }

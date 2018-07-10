@@ -3,15 +3,30 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.PriorityQueue;
 
+// Time: O(N*lgK), Space: O(K)
 public class SortAlmostSortedArray {
 
   public static List<Integer>
   sortApproximatelySortedData(Iterator<Integer> sequence, int k) {
-    // Implement this placeholder.
-    return null;
+    PriorityQueue<Integer> pq = new PriorityQueue<>(k);
+    List<Integer> res = new ArrayList<>();
+
+    while (sequence.hasNext()) {
+      pq.offer(sequence.next());
+      if (pq.size()>k) {
+        res.add(pq.poll());
+      }
+    }
+
+    while (!pq.isEmpty()) {
+      res.add(pq.poll());
+    }
+    return res;
   }
 
   @EpiTest(testfile = "sort_almost_sorted_array.tsv")

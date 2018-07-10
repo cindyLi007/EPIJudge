@@ -8,10 +8,34 @@ import epi.test_framework.TimedExecutor;
 
 public class LowestCommonAncestorWithParent {
 
+  // Time O(h), Space: O(1)
   public static BinaryTree<Integer> LCA(BinaryTree<Integer> node0,
                                         BinaryTree<Integer> node1) {
-    // Implement this placeholder.
-    return null;
+    int depth0 = depthOf(node0);
+    int depth1 = depthOf(node1);
+    while (depth0>depth1) {
+      node0 = node0.parent;
+      depth0--;
+    }
+    while (depth0<depth1) {
+      node1 = node1.parent;
+      depth1--;
+    }
+    while (node0!=node1) {
+      node0=node0.parent;
+      node1=node1.parent;
+    }
+    return node0;
+  }
+
+  // Time: O(h), Space: O(1)
+  private static int depthOf(BinaryTree<Integer> node) {
+    int depth=0;
+    while (node != null) {
+      depth++;
+      node = node.parent;
+    }
+    return depth;
   }
 
   @EpiTest(testfile = "lowest_common_ancestor.tsv")
