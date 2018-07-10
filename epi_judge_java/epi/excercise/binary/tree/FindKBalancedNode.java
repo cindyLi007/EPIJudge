@@ -8,6 +8,10 @@ import epi.BinaryTreeNode;
  * binary tree such that the node is not k-balance but all of its descendants are k-balanced.
  */
 public class FindKBalancedNode {
+  /**
+   * When loop a Binary tree, sometimes we want to record more than 1 information, is that case, we can create a static
+   * class to carry as much as possible information.
+   */
   private static class BalanceStatusWithHeight {
     public boolean isKBalanced;
     public int size;
