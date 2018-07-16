@@ -29,70 +29,64 @@ public class SmallestSubarrayCoveringAllValues {
     Subarray subarray = new Subarray(-1, -1);
     int len = paragraph.size();
     int[][] dp = new int[len][len];
-    // dp[i][j] store from paragraph [i, j], cover till index x-th word in keywords
-    // first initialize all entries to -1
     for (int[] row : dp) {
       Arrays.fill(row, -1);
     }
 
-    for (int end=0; end<len; end++) { // each time move forward one pos in paragraph
+    for (int end=0; end<len; end++) {
       String word = paragraph.get(end);
       for (int start=0; start<=end; start++) {
-        if (end==0 || dp[end-1][start]==-1) { // means we need compare first keyword, so we start from this position in paragraph
+        if (end==0 || dp[start][end-1]==-1) {
           if (word.equals(keywords.get(0))) {
-            dp[end][start]=0;
+            dp[start][end]=0;
           }
-        } else { // means from start till end-1, there already cover some keywords, so need compare to the next word
-          String expectedWord = keywords.get(dp[end - 1][start] + 1);
+        } else {
+          String expectedWord = keywords.get(dp[start][end - 1] + 1);
           if (expectedWord.equals(word)) {
-            dp[end][start] = dp[end - 1][start] + 1;
-            if (dp[end][start] == keywords.size() - 1) { // we covers all keywords sequentially
-              if (subarray.start == -1 || subarray.end - subarray.start > end - start) {
+            dp[start][end]=dp[start][end-1]+1;
+            if (dp[start][end]==keywords.size()-1) {
+              if (subarray.start==-1 || subarray.end-subarray.start > end-start) {
                 subarray.start = start;
                 subarray.end = end;
               }
-              dp[end][start] = -1; // reset, so next word can start over
+              dp[start][end]=-1;
             }
           } else {
-            dp[end][start] = dp[end - 1][start];
+            dp[start][end]=dp[start][end-1];
           }
         }
       }
     }
+
     return subarray;
   }
 
+  // Time: O(N) N is the number of paragraph, Space: O(m) m is the number of keywords
   public static Subarray findSmallestSequentiallyCoveringSubset(List<String> paragraph, List<String> keywords) {
-    Map<String, Integer> keywordToIdx = new HashMap<>();
+    Subarray subarray = new Subarray(-1, -1);
 
-    // the i-th entry means the i-th keyword appears in paragraph's pos so far
-    ArrayList<Integer> latestOccurrence = new ArrayList<>(keywords.size());
+    Map<String, Integer> keyToIdx = new HashMap<>();
+    List<Integer> latestOccurrence = new ArrayList<>(keywords.size());
+    List<Integer> shortestDistance = new ArrayList<>(keywords.size());
 
-    // the i-th entry means the subarray [0, i-th] shortest length
-    List<Integer> shortestSubarrayLength = new ArrayList<>(keywords.size());
-
-    // Initialize
-    for (int i = 0; i < keywords.size(); i++) {
+    for (int i=0; i<keywords.size(); i++) {
+      keyToIdx.put(keywords.get(i), i);
       latestOccurrence.add(-1);
-      shortestSubarrayLength.add(Integer.MAX_VALUE);
-      keywordToIdx.put(keywords.get(i), i);
+      shortestDistance.add(Integer.MAX_VALUE);
     }
 
-    Subarray subarray = new Subarray(-1, -1);
     for (int i=0; i<paragraph.size(); i++) {
       String word = paragraph.get(i);
-      if (keywordToIdx.containsKey(word)) {
-        Integer index = keywordToIdx.get(word);
-        if (index==0 || latestOccurrence.get(index-1)!=-1) { // from the first keyword
-          int distance = index==0 ? 1 : shortestSubarrayLength.get(index-1) + i-latestOccurrence.get(index-1);
-          shortestSubarrayLength.set(index, distance);
+      if (keyToIdx.containsKey(word)) {
+        Integer index = keyToIdx.get(word);
+        if (index ==0 || latestOccurrence.get(index -1)!=-1) {
           latestOccurrence.set(index, i);
+          shortestDistance.set(index, index==0 ? 1 : shortestDistance.get(index-1) + (i-latestOccurrence.get(index-1)));
         }
-
         if (index==keywords.size()-1) {
-          if (subarray.start == -1 || shortestSubarrayLength.get(index) < subarray.end - subarray.start+1) {
-            subarray.start = i-shortestSubarrayLength.get(index)+1;
+          if (subarray.start==-1 || shortestDistance.get(index) < subarray.end-subarray.start+1) {
             subarray.end = i;
+            subarray.start = i-shortestDistance.get(index)+1;
           }
         }
       }

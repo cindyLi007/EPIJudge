@@ -50,9 +50,17 @@ public class RemoveDuplicates {
     }
   }
 
+  // Time: O(NLgN), Space: O(1)
   public static void eliminateDuplicate(List<Name> names) {
-    // Implement this placeholder.
-    return;
+    Collections.sort(names);
+    int i=0;
+    while (i < names.size()) {
+      if (i == 0 || !names.get(i - 1).firstName.equals(names.get(i).firstName)) {
+        i++;
+      } else {
+        names.remove(i);
+      }
+    }
   }
 
   @EpiTest(testfile = "remove_duplicates.tsv")
