@@ -29,7 +29,7 @@ public class SmallestSubarrayCoveringSet {
     Map<String, Long> keywordsToCover = keywords.stream().collect(
         Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-    Subarray result = new Subarray(-1, -1);
+     Subarray result = new Subarray(-1, -1);
     int remainingToCover = keywords.size();
     for (int left = 0, right = 0; right < paragraph.size(); ++right) {
       if (keywordsToCover.containsKey(paragraph.get(right)) &&

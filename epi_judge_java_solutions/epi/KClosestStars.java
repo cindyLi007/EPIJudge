@@ -26,6 +26,7 @@ public class KClosestStars {
       this.z = z;
     }
 
+    // IMPORTANT: how to calculate the distance in 3-D
     public double distance() { return Math.sqrt(x * x + y * y + z * z); }
 
     @Override

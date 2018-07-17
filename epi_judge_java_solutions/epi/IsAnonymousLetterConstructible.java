@@ -23,8 +23,8 @@ public class IsAnonymousLetterConstructible {
     for (char c : magazineText.toCharArray()) {
       if (charFrequencyForLetter.containsKey(c)) {
         charFrequencyForLetter.put(c, charFrequencyForLetter.get(c) - 1);
+        // Removes the entry for char c only if it's value is 0L.
         if (charFrequencyForLetter.remove(c, 0L)) {
-          charFrequencyForLetter.remove(c);
           // All characters for letterText are matched.
           if (charFrequencyForLetter.isEmpty()) {
             break;
