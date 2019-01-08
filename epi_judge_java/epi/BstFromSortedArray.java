@@ -9,32 +9,45 @@ import epi.test_framework.TimedExecutor;
 
 import java.util.List;
 
+/**
+ * Given a sorted array, build a BST of minimum possilbe height
+ */
 public class BstFromSortedArray {
 
-  public static BstNode<Integer>
-  buildMinHeightBSTFromSortedArray(List<Integer> A) {
-    // Implement this placeholder.
-    return null;
-  }
+    // Time: O(N)
+    public static BstNode<Integer> buildMinHeightBSTFromSortedArray(List<Integer> A) {
+        return buildMinHeightBSTFromSortedArray(A, 0, A.size() - 1);
+    }
 
-  @EpiTest(testfile = "bst_from_sorted_array.tsv")
-  public static int
-  buildMinHeightBSTFromSortedArrayWrapper(TimedExecutor executor,
-                                          List<Integer> A) throws Exception {
-    BstNode<Integer> result =
-        executor.run(() -> buildMinHeightBSTFromSortedArray(A));
+    private static BstNode<Integer> buildMinHeightBSTFromSortedArray(List<Integer> a, int start, int end) {
+        if (start > end) {
+            return null;
+        }
+        int mid = start + (end-start)/2;
+        BstNode<Integer> left = buildMinHeightBSTFromSortedArray(a, start, mid -1);
+        BstNode<Integer> right = buildMinHeightBSTFromSortedArray(a, mid + 1, end);
+        return new BstNode<>(a.get(mid), left, right);
+    }
 
-    List<Integer> inorder = BinaryTreeUtils.generateInorder(result);
+    @EpiTest(testfile = "bst_from_sorted_array.tsv")
+    public static int
+    buildMinHeightBSTFromSortedArrayWrapper(TimedExecutor executor,
+                                            List<Integer> A) throws Exception {
+        BstNode<Integer> result =
+                executor.run(() -> buildMinHeightBSTFromSortedArray(A));
 
-    TestUtils.assertAllValuesPresent(A, inorder);
-    BinaryTreeUtils.assertTreeIsBst(result);
-    return BinaryTreeUtils.binaryTreeHeight(result);
-  }
+        List<Integer> inorder = BinaryTreeUtils.generateInorder(result);
 
-  public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
-  }
+        TestUtils.assertAllValuesPresent(A, inorder);
+        BinaryTreeUtils.assertTreeIsBst(result);
+        return BinaryTreeUtils.binaryTreeHeight(result);
+    }
+
+    public static void main(String[] args) {
+        System.exit(GenericTest
+                .runFromAnnotations(
+                        args, new Object() {
+                        }.getClass().getEnclosingClass())
+                .ordinal());
+    }
 }

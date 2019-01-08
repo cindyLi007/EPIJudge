@@ -14,9 +14,11 @@ public class DescendantAndAncestorInBst {
 
     // Perform interleaved searching from possibleAncOrDesc0 and
     // possibleAncOrDesc1 for middle.
-    while (search0 != possibleAncOrDesc1 && search0 != middle &&
-           search1 != possibleAncOrDesc0 && search1 != middle &&
-           (search0 != null || search1 != null)) {
+    // in this while loop we check whether middle is possibleAncOrDesc0 or possibleAncOrDesc1, as soon as we find middle is
+    // any's child, stop while, this can prevent we go deeper
+    while (search0 != possibleAncOrDesc1 && search0 != middle && // neither possibleAncOrDesc1 or middle is child of possibleAncOrDesc0
+           search1 != possibleAncOrDesc0 && search1 != middle && // neither possibleAncOrDesc0 or middle is child of possibleAncOrDesc1
+           (search0 != null || search1 != null)) { // if search0==null && search1==null that means none of them is in same branch
       if (search0 != null) {
         search0 = search0.data > middle.data ? search0.left : search0.right;
       }

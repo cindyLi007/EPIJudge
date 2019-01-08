@@ -3,13 +3,15 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 public class MinimumDistance3SortedArrays {
 
   public static class ArrayData implements Comparable<ArrayData> {
     public int val;
-    public int idx;
+    public int idx; // the sortedArrays index
 
     public ArrayData(int idx, int val) {
       this.val = val;
@@ -30,8 +32,27 @@ public class MinimumDistance3SortedArrays {
 
   public static int
   findMinDistanceSortedArrays(List<List<Integer>> sortedArrays) {
-    // Implement this placeholder.
-    return 0;
+    int res = Integer.MAX_VALUE;
+    // Store current pointer of every sorted array
+    List<Integer> heads = new ArrayList<>();
+    // first, init pointer to 0 for every sorted array
+    for (List<Integer> sortedArray : sortedArrays) {
+      heads.add(0);
+    }
+    TreeSet<ArrayData> currentInterval = new TreeSet<>();
+    for (int i=0; i<heads.size(); i++) {
+      currentInterval.add(new ArrayData(i, sortedArrays.get(i).get(heads.get(i))));
+    }
+
+    while (true) {
+      res = Math.min(res, currentInterval.last().val - currentInterval.first().val);
+      int minElementIdxInCorArray = currentInterval.pollFirst().idx;
+      int index = heads.get(minElementIdxInCorArray);
+      if (index == sortedArrays.get(minElementIdxInCorArray).size()-1) return res;
+      heads.set(minElementIdxInCorArray, heads.get(minElementIdxInCorArray)+1);
+      ArrayData arrayData = new ArrayData(minElementIdxInCorArray, sortedArrays.get(minElementIdxInCorArray).get(heads.get(minElementIdxInCorArray)));
+      currentInterval.add(arrayData);
+    }
   }
 
   public static void main(String[] args) {

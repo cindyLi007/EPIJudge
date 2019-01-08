@@ -10,10 +10,20 @@ public class LowestCommonAncestorInBst {
 
   // Input nodes are nonempty and the key at s is less than or equal to that at
   // b.
+  // Time: O(h)
   public static BstNode<Integer>
   findLCA(BstNode<Integer> tree, BstNode<Integer> s, BstNode<Integer> b) {
-    // Implement this placeholder.
-    return null;
+    BstNode<Integer> res = tree;
+    // A LCA node must be in range [s, b]
+    while (res.data < s.data || res.data > b.data) {
+      while (res.data < s.data) { // s must be in res.right
+        res = res.right;
+      }
+      while (res.data > b.data) { // b must be in res.left
+        res = res.left;
+      }
+    }
+    return res;
   }
 
   @EpiTest(testfile = "lowest_common_ancestor_in_bst.tsv")
