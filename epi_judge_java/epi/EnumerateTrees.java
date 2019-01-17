@@ -12,10 +12,24 @@ import java.util.Stack;
 
 public class EnumerateTrees {
 
-  public static List<BinaryTreeNode<Integer>>
-  generateAllBinaryTrees(int numNodes) {
-    // Implement this placeholder.
-    return Collections.emptyList();
+  // Time: O(2^n), Space: O(h)
+  public static List<BinaryTreeNode<Integer>> generateAllBinaryTrees(int numNodes) {
+    List<BinaryTreeNode<Integer>> res = new ArrayList<>();
+    if (numNodes == 0) {
+      res.add(null);
+      return res;
+    }
+
+    for (int i=0; i<numNodes; i++) {
+      List<BinaryTreeNode<Integer>> left = generateAllBinaryTrees(i);
+      List<BinaryTreeNode<Integer>> right = generateAllBinaryTrees(numNodes-1-i);
+      for (BinaryTreeNode l : left) {
+        for (BinaryTreeNode r : right) {
+          res.add(new BinaryTreeNode<Integer>(0, l, r));
+        }
+      }
+    }
+    return res;
   }
 
   public static List<Integer> serializeStructure(BinaryTreeNode<Integer> tree) {

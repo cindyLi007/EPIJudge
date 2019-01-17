@@ -4,7 +4,7 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 /**
- * define a palindromic string to be a string which when all teh non-alphanumeric are removed it reads the same front to back ignoring case.
+ * define a palindromic string to be a string which when all the non-alphanumeric are removed it reads the same front to back ignoring case.
  */
 public class IsStringPalindromicPunctuation {
   @EpiTest(testfile = "is_string_palindromic_punctuation.tsv")

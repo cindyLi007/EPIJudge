@@ -5,19 +5,36 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.List;
-import java.util.LinkedList;
+import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Hanoi {
 
   private static final int NUM_PEGS = 3;
 
+  // Time: O(2^N), Space: O(N)
   public static List<List<Integer>> computeTowerHanoi(int numRings) {
-    // Implement this placeholder.
-    return Collections.emptyList();
+    List<List<Integer>> res = new ArrayList<>();
+    List<Deque<Integer>> pegs = IntStream.range(0, NUM_PEGS)
+            .mapToObj(i -> new ArrayDeque<Integer>())
+            .collect(Collectors.toList());
+    for (int i = numRings; i >= 1; i--) {
+      pegs.get(0).addFirst(i);
+    }
+    computeTowerHanoi(numRings, pegs, 0, 1, 2, res);
+    return res;
+  }
+
+  private static void computeTowerHanoi(int numRings, List<Deque<Integer>> pegs,
+                                        int from, int to, int use, List<List<Integer>> res) {
+    if (numRings > 0) {
+      computeTowerHanoi(numRings -1, pegs, from, use, to, res);
+      pegs.get(to).addFirst(pegs.get(from).removeFirst());
+      res.add(Arrays.asList(from, to));
+      computeTowerHanoi(numRings -1, pegs, use, to, from, res);
+    }
   }
 
   @EpiTest(testfile = "hanoi.tsv")

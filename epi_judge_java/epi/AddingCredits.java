@@ -5,35 +5,57 @@ import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 
-import java.util.List;
+import java.util.*;
 
 public class AddingCredits {
 
   public static class ClientsCreditsInfo {
+    // Use bst to support Max() in O(1)
+    TreeMap<Integer, Set<String>> bst = new TreeMap<>();
+    // Use map to support remove, lookup in O(1)
+    Map<String, Integer> clientToCredit = new HashMap<>();
+    // use offset to support addAll in O(1). For later-added client-credit, should set the credit = credit - c;
+    int offset = 0;
 
+    // Time: O(lgN), dominated by BST
     public void insert(String clientID, int c) {
-      // Implement this placeholder.
-      return;
+      // since BST uses credit as the key, we must first remove it, update and insert back to BST
+      remove(clientID);
+      clientToCredit.put(clientID, c - offset);
+      bst.putIfAbsent(c - offset, new HashSet<>());
+      bst.get(c - offset).add(clientID);
     }
 
+    // Time: O(lgN), dominated by BST
     public boolean remove(String clientID) {
-      // Implement this placeholder.
-      return true;
+      if (clientToCredit.containsKey(clientID)) {
+        Integer credit = clientToCredit.remove(clientID);
+        Set<String> clientSet = bst.get(credit);
+        clientSet.remove(clientID);
+        // we need keep the BST as small as possible for fast search, so if there is no client bounds a credit,
+        // remove the node from BST
+        if (clientSet.isEmpty()) {
+          bst.remove(credit);
+        }
+        return true;
+      }
+      return false;
     }
 
+    // Time: O(1)
     public int lookup(String clientID) {
-      // Implement this placeholder.
-      return 0;
+      return clientToCredit.containsKey(clientID) ?
+              clientToCredit.get(clientID) + offset : -1;
     }
 
+    // Time: O(1)
     public void addAll(int C) {
-      // Implement this placeholder.
-      return;
+      offset += C;
     }
 
+    // Time: O(1), library BST implementation uses caching
     public String max() {
-      // Implement this placeholder.
-      return "";
+      return bst.isEmpty() ? "" : bst.lastEntry().getValue().iterator().next();
     }
 
     @Override

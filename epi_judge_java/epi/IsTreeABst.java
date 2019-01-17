@@ -5,7 +5,8 @@ import epi.test_framework.GenericTest;
 
 /*
  * the follwoing are DFS, which mean we must traverse left subtree, then traverse right tree
- * Read book Page 225 can also use BFS
+ * Read book Page 225 can also use BFS, bacially that is tightly define range of each node when offer to queue, and
+ * check when poll from queue
  */
 public class IsTreeABst {
     @EpiTest(testfile = "is_tree_a_bst.tsv")
@@ -22,6 +23,7 @@ public class IsTreeABst {
         return inorderTraverse(tree);
     }
 
+    // if inorder traverse a BT is sorted, the BT is BST
     private static boolean inorderTraverse(BinaryTreeNode<Integer> tree) {
         if (tree == null) {
             return true;

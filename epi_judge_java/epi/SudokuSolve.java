@@ -13,87 +13,135 @@ import java.util.Set;
 
 public class SudokuSolve {
 
-  public static boolean solveSudoku(List<List<Integer>> partialAssignment) {
-    // Implement this placeholder.
-    return true;
-  }
+    private static int length;
 
-  @EpiTest(testfile = "sudoku_solve.tsv")
-  public static void solveSudokuWrapper(TimedExecutor executor,
-                                        List<List<Integer>> partialAssignment)
-      throws Exception {
-    List<List<Integer>> solved = new ArrayList<>();
-    for (List<Integer> row : partialAssignment) {
-      solved.add(new ArrayList<>(row));
+    public static boolean solveSudoku(List<List<Integer>> partialAssignment) {
+        length = partialAssignment.size();
+        return solveSudoku(partialAssignment, 0, 0);
     }
 
-    executor.run(() -> solveSudoku(solved));
+    private static boolean solveSudoku(List<List<Integer>> partialAssignment, int rowPos, int colPos) {
+        if (rowPos == length) {
+            return true;
+        }
+        if (colPos == length) {
+            return solveSudoku(partialAssignment, rowPos + 1, 0);
+        }
+        if (partialAssignment.get(rowPos).get(colPos) != 0) {
+            return solveSudoku(partialAssignment, rowPos, colPos + 1);
+        }
 
-    if (partialAssignment.size() != solved.size()) {
-      throw new TestFailure("Initial cell assignment has been changed");
+        for (int val = 1; val <= length; val++) {
+            if (valid(partialAssignment, rowPos, colPos, val)) {
+                partialAssignment.get(rowPos).set(colPos, val);
+                if (solveSudoku(partialAssignment, rowPos, colPos + 1)) {
+                    return true;
+                }
+            }
+        }
+        // this means from 1 to 9 , there is NO solution for this [rowPos, colPos], we need backtrack to previous pos
+        partialAssignment.get(rowPos).set(colPos, 0);
+
+        return false;
     }
 
-    for (int i = 0; i < partialAssignment.size(); i++) {
-      List<Integer> br = partialAssignment.get(i);
-      List<Integer> sr = solved.get(i);
-      if (br.size() != sr.size()) {
-        throw new TestFailure("Initial cell assignment has been changed");
-      }
-      for (int j = 0; j < br.size(); j++)
-        if (br.get(j) != 0 && !Objects.equals(br.get(j), sr.get(j)))
-          throw new TestFailure("Initial cell assignment has been changed");
+    private static boolean valid(List<List<Integer>> partialAssignment, int rowPos, int colPos, int val) {
+        for (int i = 0; i < length; i++) {
+             if (partialAssignment.get(rowPos).get(i) == val) return false;
+        }
+        for (int i = 0; i < length; i++) {
+            if (partialAssignment.get(i).get(colPos) == val) return false;
+        }
+        int radius = (int)Math.sqrt(length);
+        int I = rowPos / radius, J = colPos / radius;
+        for (int i = 0; i < radius; i++) {
+            for (int j = 0; j < radius; j++) {
+                int r = radius * I + i, c = radius * J + j;
+                if (partialAssignment.get(r).get(c) == val) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
-    int blockSize = (int)Math.sqrt(solved.size());
-    for (int i = 0; i < solved.size(); i++) {
-      assertUniqueSeq(solved.get(i));
-      assertUniqueSeq(gatherColumn(solved, i));
-      assertUniqueSeq(gatherSquareBlock(solved, blockSize, i));
-    }
-  }
+    @EpiTest(testfile = "sudoku_solve.tsv")
+    public static void solveSudokuWrapper(TimedExecutor executor,
+                                          List<List<Integer>> partialAssignment)
+            throws Exception {
+        List<List<Integer>> solved = new ArrayList<>();
+        for (List<Integer> row : partialAssignment) {
+            solved.add(new ArrayList<>(row));
+        }
 
-  private static void assertUniqueSeq(List<Integer> seq) throws TestFailure {
-    Set<Integer> seen = new HashSet<>();
-    for (Integer x : seq) {
-      if (x == 0) {
-        throw new TestFailure("Cell left uninitialized");
-      }
-      if (x < 0 || x > seq.size()) {
-        throw new TestFailure("Cell value out of range");
-      }
-      if (seen.contains(x)) {
-        throw new TestFailure("Duplicate value in section");
-      }
-      seen.add(x);
-    }
-  }
+        executor.run(() -> solveSudoku(solved));
 
-  private static List<Integer> gatherColumn(List<List<Integer>> data, int i) {
-    List<Integer> result = new ArrayList<>();
-    for (List<Integer> row : data) {
-      result.add(row.get(i));
-    }
-    return result;
-  }
+        if (partialAssignment.size() != solved.size()) {
+            throw new TestFailure("Initial cell assignment has been changed");
+        }
 
-  private static List<Integer> gatherSquareBlock(List<List<Integer>> data,
-                                                 int blockSize, int n) {
-    List<Integer> result = new ArrayList<>();
-    int blockX = n % blockSize;
-    int blockY = n / blockSize;
-    for (int i = blockX * blockSize; i < (blockX + 1) * blockSize; i++) {
-      for (int j = blockY * blockSize; j < (blockY + 1) * blockSize; j++) {
-        result.add(data.get(i).get(j));
-      }
+        for (int i = 0; i < partialAssignment.size(); i++) {
+            List<Integer> br = partialAssignment.get(i);
+            List<Integer> sr = solved.get(i);
+            if (br.size() != sr.size()) {
+                throw new TestFailure("Initial cell assignment has been changed");
+            }
+            for (int j = 0; j < br.size(); j++)
+                if (br.get(j) != 0 && !Objects.equals(br.get(j), sr.get(j)))
+                    throw new TestFailure("Initial cell assignment has been changed");
+        }
+
+        int blockSize = (int) Math.sqrt(solved.size());
+        for (int i = 0; i < solved.size(); i++) {
+            assertUniqueSeq(solved.get(i));
+            assertUniqueSeq(gatherColumn(solved, i));
+            assertUniqueSeq(gatherSquareBlock(solved, blockSize, i));
+        }
     }
 
-    return result;
-  }
+    private static void assertUniqueSeq(List<Integer> seq) throws TestFailure {
+        Set<Integer> seen = new HashSet<>();
+        for (Integer x : seq) {
+            if (x == 0) {
+                throw new TestFailure("Cell left uninitialized");
+            }
+            if (x < 0 || x > seq.size()) {
+                throw new TestFailure("Cell value out of range");
+            }
+            if (seen.contains(x)) {
+                throw new TestFailure("Duplicate value in section");
+            }
+            seen.add(x);
+        }
+    }
 
-  public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
-  }
+    private static List<Integer> gatherColumn(List<List<Integer>> data, int i) {
+        List<Integer> result = new ArrayList<>();
+        for (List<Integer> row : data) {
+            result.add(row.get(i));
+        }
+        return result;
+    }
+
+    private static List<Integer> gatherSquareBlock(List<List<Integer>> data,
+                                                   int blockSize, int n) {
+        List<Integer> result = new ArrayList<>();
+        int blockX = n % blockSize;
+        int blockY = n / blockSize;
+        for (int i = blockX * blockSize; i < (blockX + 1) * blockSize; i++) {
+            for (int j = blockY * blockSize; j < (blockY + 1) * blockSize; j++) {
+                result.add(data.get(i).get(j));
+            }
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        System.exit(GenericTest
+                .runFromAnnotations(
+                        args, new Object() {
+                        }.getClass().getEnclosingClass())
+                .ordinal());
+    }
 }

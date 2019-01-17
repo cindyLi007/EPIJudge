@@ -12,10 +12,12 @@ public class MinimumDistance3SortedArrays {
   public static class ArrayData implements Comparable<ArrayData> {
     public int val;
     public int idx; // the sortedArrays index
+    public int pos;
 
-    public ArrayData(int idx, int val) {
+    public ArrayData(int idx, int val, int pos) {
       this.val = val;
       this.idx = idx;
+      this.pos = pos;
     }
 
     @Override
@@ -30,27 +32,26 @@ public class MinimumDistance3SortedArrays {
 
   @EpiTest(testfile = "minimum_distance_3_sorted_arrays.tsv")
 
+  // Time: O(n*lgK) K is size of sortedArrays
   public static int
   findMinDistanceSortedArrays(List<List<Integer>> sortedArrays) {
     int res = Integer.MAX_VALUE;
-    // Store current pointer of every sorted array
-    List<Integer> heads = new ArrayList<>();
-    // first, init pointer to 0 for every sorted array
-    for (List<Integer> sortedArray : sortedArrays) {
-      heads.add(0);
-    }
+
     TreeSet<ArrayData> currentInterval = new TreeSet<>();
-    for (int i=0; i<heads.size(); i++) {
-      currentInterval.add(new ArrayData(i, sortedArrays.get(i).get(heads.get(i))));
+    for (int i=0; i<sortedArrays.size(); i++) {
+      currentInterval.add(new ArrayData(i, sortedArrays.get(i).get(0), 0));
     }
 
     while (true) {
       res = Math.min(res, currentInterval.last().val - currentInterval.first().val);
-      int minElementIdxInCorArray = currentInterval.pollFirst().idx;
-      int index = heads.get(minElementIdxInCorArray);
-      if (index == sortedArrays.get(minElementIdxInCorArray).size()-1) return res;
-      heads.set(minElementIdxInCorArray, heads.get(minElementIdxInCorArray)+1);
-      ArrayData arrayData = new ArrayData(minElementIdxInCorArray, sortedArrays.get(minElementIdxInCorArray).get(heads.get(minElementIdxInCorArray)));
+      ArrayData minElem = currentInterval.pollFirst();
+      int minElementIdxInCorArray = minElem.idx;
+      int index = minElem.pos;
+      index++;
+      if (index == sortedArrays.get(minElementIdxInCorArray).size()) {
+        return res;
+      }
+      ArrayData arrayData = new ArrayData(minElementIdxInCorArray, sortedArrays.get(minElementIdxInCorArray).get(index), index);
       currentInterval.add(arrayData);
     }
   }

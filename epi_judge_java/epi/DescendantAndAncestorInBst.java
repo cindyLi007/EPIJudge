@@ -10,21 +10,37 @@ import epi.test_framework.TimedExecutor;
  * middle node's descendant
  */
 public class DescendantAndAncestorInBst {
-
+  // Time: O(d) d is the difference between the depths of the ancestor and descendant if return true
+  // O(h) if return false
   public static boolean
   pairIncludesAncestorAndDescendantOfM(BstNode<Integer> possibleAncOrDesc0,
                                        BstNode<Integer> possibleAncOrDesc1,
                                        BstNode<Integer> middle) {
     BstNode<Integer> search0 = possibleAncOrDesc0, search1 = possibleAncOrDesc1;
-    // first check whether any of nodes's child is middle
-    if (findChild(search0, middle)) {
-      return findChild(middle, possibleAncOrDesc1);
-    } else {
-      if (findChild(search1, middle)) {
-        return findChild(middle, possibleAncOrDesc0);
+    // interleaved search whether middle is either node's child or one node is the other's child
+    while (search0 != possibleAncOrDesc1 && search0 != middle
+            && search1 != possibleAncOrDesc0 && search1 != middle
+            && (search0 != null || search1 != null)) {
+      if (search0 != null) {
+        search0 = search0.data > middle.data ? search0.left : search0.right;
+      }
+      if (search1 != null) {
+        search1 = search1.data > middle.data ? search1.left : search1.right;
       }
     }
-    return false;
+
+    // If both searches were unsuccessful, or we got from possibleAncOrDesc0
+    // to possibleAncOrDesc1 without seeing middle, or from possibleAncOrDesc1
+    // to possibleAncOrDesc0 without seeing middle, middle cannot lie between
+    // possibleAncOrDesc0 and possibleAncOrDesc1.
+    if ((search0 == null && search1 == null) || search0 == possibleAncOrDesc1 || search1 == possibleAncOrDesc0) {
+      return false;
+    }
+
+    if (search0 == middle) {
+      return findChild(middle, possibleAncOrDesc1);
+    }
+    return findChild(middle, possibleAncOrDesc0);
   }
 
   private static boolean findChild(BstNode<Integer> root, BstNode<Integer> possibleChild) {
