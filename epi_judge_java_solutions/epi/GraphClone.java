@@ -40,7 +40,7 @@ public class GraphClone {
       GraphVertex v = q.remove();
       for (GraphVertex e : v.edges) {
         // Try to copy vertex e.
-        if (vertexMap.putIfAbsent(e, new GraphVertex(e.label)) == null) {
+        if (vertexMap.putIfAbsent(e, new GraphVertex(e.label)) == null) { // we never encounter e
           q.add(e);
         }
         // Copy edge.

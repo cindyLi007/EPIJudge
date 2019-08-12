@@ -39,8 +39,9 @@ public class NonuniformRandomNumber {
       // greater than the key.
       //
       // When a key is not present in the array, Collections.binarySearch()
-      // returns the negative of 1 plus the smallest index whose entry
-      // is greater than the key.
+      // returns the negative of (1 + the smallest index whose entry
+      // is greater than the key).
+      // it = -(1 + insertionIndex) => insertionIndex + 1 = Math.abs(it) => insertionIndex = Math.abs(it)-1
       //
       // Therefore, if the return value is negative, by taking its absolute
       // value minus 1, we get the desired index.

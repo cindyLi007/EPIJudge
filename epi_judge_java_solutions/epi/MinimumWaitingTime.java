@@ -8,6 +8,7 @@ import java.util.List;
 
 public class MinimumWaitingTime {
   @EpiTest(testfile = "minimum_waiting_time.tsv")
+  // Time: O(n*lgn) for sort
   public static int minimumTotalWaitingTime(List<Integer> serviceTimes) {
     // Sort the service times in increasing order.
     Collections.sort(serviceTimes);

@@ -39,6 +39,7 @@ public class TaskPairing {
   }
 
   @EpiTest(testfile = "task_pairing.tsv")
+  // Time: O(n * lgn) for sort
   public static List<PairedTasks>
   optimumTaskAssignment(List<Integer> taskDurations) {
     Collections.sort(taskDurations);

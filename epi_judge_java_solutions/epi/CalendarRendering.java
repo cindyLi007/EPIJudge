@@ -6,6 +6,7 @@ import epi.test_framework.GenericTest;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.stream.Collectors;
 
 public class CalendarRendering {
@@ -30,6 +31,20 @@ public class CalendarRendering {
   }
 
   @EpiTest(testfile = "calendar_rendering.tsv")
+  public static int findMaxSimultaneousEvents_pq(List<Event> A) {
+    A.sort((e1, e2) -> e1.start - e2.start);
+    PriorityQueue<Integer> pq = new PriorityQueue<>();
+    int max = 0;
+    for (Event e : A) {
+      while (!pq.isEmpty() && pq.peek() < e.start) {
+        pq.poll();
+      }
+      pq.offer(e.finish);
+      max = Math.max(max, pq.size());
+    }
+    return max;
+  }
+
   public static int findMaxSimultaneousEvents(List<Event> A) {
     // Builds an array of all endpoints.
     List<Endpoint> E =

@@ -21,7 +21,7 @@ public class SudokuSolve {
   private static boolean
   solvePartialSudoku(int i, int j, List<List<Integer>> partialAssignment) {
     if (i == partialAssignment.size()) {
-      i = 0; // Starts a new row.
+      i = 0; // Starts a new col.
       if (++j == partialAssignment.get(i).size()) {
         return true; // Entire matrix has been filled without conflict.
       }

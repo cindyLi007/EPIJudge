@@ -28,7 +28,7 @@ public class MatrixConnectedRegions {
     image.get(x).set(y, !image.get(x).get(y)); // Flips.
     q.add(new Coordinate(x, y));
     while (!q.isEmpty()) {
-      Coordinate cur = q.element();
+      Coordinate cur = q.remove(); //q.element();
       for (Coordinate nextMove :
            Arrays.asList(new Coordinate(cur.x, cur.y + 1),
                          new Coordinate(cur.x, cur.y - 1),
@@ -42,7 +42,7 @@ public class MatrixConnectedRegions {
           q.add(nextMove);
         }
       }
-      q.remove();
+//      q.remove();
     }
   }
 

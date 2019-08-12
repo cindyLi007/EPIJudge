@@ -17,6 +17,7 @@ public class NextPermutation {
       --inversionPoint;
     }
     if (inversionPoint == -1) {
+      // Collections.reverse(perm);
       return Collections.emptyList(); // perm is the last permutation.
     }
 

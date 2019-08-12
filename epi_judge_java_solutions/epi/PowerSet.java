@@ -6,6 +6,7 @@ import epi.test_framework.LexicographicalListComparator;
 import epi.test_framework.GenericTest;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiPredicate;

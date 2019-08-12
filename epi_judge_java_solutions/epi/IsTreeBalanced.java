@@ -19,8 +19,7 @@ public class IsTreeBalanced {
     return checkBalanced(tree).balanced;
   }
 
-  private static BalanceStatusWithHeight
-  checkBalanced(BinaryTreeNode<Integer> tree) {
+  private static BalanceStatusWithHeight checkBalanced(BinaryTreeNode<Integer> tree) {
     if (tree == null) {
       return new BalanceStatusWithHeight(true, -1); // Base case.
     }

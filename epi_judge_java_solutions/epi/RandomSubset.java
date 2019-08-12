@@ -23,10 +23,11 @@ public class RandomSubset {
       int randIdx = i + randIdxGen.nextInt(n - i);
       Integer ptr1 = changedElements.get(randIdx);
       Integer ptr2 = changedElements.get(i);
-      if (ptr1 == null && ptr2 == null) {
+      // range [0, i-1] and range [i, n-1]
+      if (ptr1 == null && ptr2 == null) { // i and ranIdx are both not be swapped by prev values, swap i and ranIdx
         changedElements.put(randIdx, i);
         changedElements.put(i, randIdx);
-      } else if (ptr1 == null && ptr2 != null) {
+      } else if (ptr1 == null && ptr2 != null) { // i has been swapped by perv values
         changedElements.put(randIdx, ptr2);
         changedElements.put(i, randIdx);
       } else if (ptr1 != null && ptr2 == null) {

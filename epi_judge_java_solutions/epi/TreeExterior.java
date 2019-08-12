@@ -23,25 +23,20 @@ public class TreeExterior {
 
   // Computes the nodes from the root to the leftmost leaf followed by all the
   // leaves in subtreeRoot.
-  private static void
-  leftBoundaryAndLeaves(BinaryTreeNode<Integer> subtreeRoot, boolean isBoundary,
+  private static void leftBoundaryAndLeaves(BinaryTreeNode<Integer> subtreeRoot, boolean isBoundary,
                         List<BinaryTreeNode<Integer>> exterior) {
     if (subtreeRoot != null) {
       if (isBoundary || isLeaf(subtreeRoot)) {
         exterior.add(subtreeRoot);
       }
       leftBoundaryAndLeaves(subtreeRoot.left, isBoundary, exterior);
-      leftBoundaryAndLeaves(subtreeRoot.right,
-                            isBoundary && subtreeRoot.left == null, exterior);
+      leftBoundaryAndLeaves(subtreeRoot.right,isBoundary && subtreeRoot.left == null, exterior);
     }
   }
 
   // Computes the leaves in left-to-right order followed by the rightmost leaf
   // to the root path in subtreeRoot.
-  private static void
-  rightBoundaryAndLeaves(BinaryTreeNode<Integer> subtreeRoot,
-                         boolean isBoundary,
-                         List<BinaryTreeNode<Integer>> exterior) {
+  private static void rightBoundaryAndLeaves(BinaryTreeNode<Integer> subtreeRoot, boolean isBoundary, List<BinaryTreeNode<Integer>> exterior) {
     if (subtreeRoot != null) {
       rightBoundaryAndLeaves(subtreeRoot.left,
                              isBoundary && subtreeRoot.right == null, exterior);
