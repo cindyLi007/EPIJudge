@@ -15,16 +15,16 @@ public class TreePreorder {
     List<Integer> list = new ArrayList<>();
     Deque<BinaryTreeNode<Integer>> stack = new ArrayDeque<>();
 
-    while (tree!=null || !stack.isEmpty()) {
+    while (tree != null || !stack.isEmpty()) {
       if (tree!=null) {
         list.add(tree.data);
-        stack.push(tree);
-        tree=tree.left;
+        stack.addFirst(tree);
+        tree = tree.left;
       } else {
-        BinaryTreeNode<Integer> top = stack.pop();
-        tree=top.right;
+        tree = stack.removeFirst().right;
       }
     }
+
     return list;
   }
 

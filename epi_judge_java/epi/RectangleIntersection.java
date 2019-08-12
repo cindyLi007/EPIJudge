@@ -4,6 +4,8 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 
+import static sun.swing.MenuItemLayoutHelper.max;
+
 public class RectangleIntersection {
   @EpiUserType(ctorParams = {int.class, int.class, int.class, int.class})
   public static class Rectangle {
@@ -56,8 +58,18 @@ public class RectangleIntersection {
 
   @EpiTest(testfile = "rectangle_intersection.tsv")
   public static Rectangle intersectRectangle(Rectangle R1, Rectangle R2) {
-    // Implement this placeholder.
-    return new Rectangle(0, 0, 0, 0);
+    if (!hasIntersection(R1, R2)) {
+      return new Rectangle(0, 0, -1, -1);
+    }
+    return new Rectangle(Math.max(R1.x, R2.x), max(R1.y, R2.y),
+            Math.min(R1.x + R1.width, R2.x + R2.width) - Math.max(R1.x, R2.x),
+            Math.min(R1.y + R1.height, R2.y + R2.height) - Math.max(R1.y, R2.y)
+            );
+  }
+
+  private static boolean hasIntersection(Rectangle r1, Rectangle r2) {
+    return (r1.x + r1.width) >= r2.x && (r2.x + r2.width) >= r1.x &&
+            (r1.y + r1.height) >= r2.y && (r2.y + r2.height) >= r1.y;
   }
 
   public static void main(String[] args) {

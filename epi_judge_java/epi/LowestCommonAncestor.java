@@ -29,6 +29,7 @@ public class LowestCommonAncestor {
       return rightStatus;
     }
 
+    // must check tree with node0 and node1 both, because it can be node0 == node1
     int numberOfNodes = leftStatus.numberOfNodes + rightStatus.numberOfNodes +
         (tree == node0 ? 1 : 0) + (tree == node1 ? 1 : 0);
     return new Status(numberOfNodes, numberOfNodes == 2 ? tree : null);

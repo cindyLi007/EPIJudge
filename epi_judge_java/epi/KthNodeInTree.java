@@ -23,33 +23,25 @@ public class KthNodeInTree {
   // Time: O(h), Space: O(h)
   public static BinaryTreeNode<Integer>
   findKthNodeBinaryTree_recursive(BinaryTreeNode<Integer> tree, int k) {
-    if (tree.size < k) {
-      return null;
-    }
+    if (tree == null || tree.size < k) return null;
     if (tree.left == null || tree.left.size < k) {
-      // go to right-side
-      int leftSize = tree.left == null ? 0 : tree.left.size;
-      if (k == leftSize + 1) return tree;
-      return findKthNodeBinaryTree(tree.right, k - leftSize - 1);
-    } else {
-      return findKthNodeBinaryTree(tree.left, k);
+      int size = tree.left == null ? 0 : tree.left.size;
+      if (size + 1 == k) return tree;
+      return findKthNodeBinaryTree_recursive(tree.right, k - size - 1);
     }
+    return findKthNodeBinaryTree_recursive(tree.left, k);
   }
 
   // Time: O(h), Space: O(1)
   public static BinaryTreeNode<Integer>
   findKthNodeBinaryTree(BinaryTreeNode<Integer> tree, int k) {
-    while (tree!=null) {
-      if (tree.left==null || tree.left.size<k) {
+    while (tree!=null && tree.size >= k) {
+      if (tree.left==null || tree.left.size < k) {
         int leftSize = tree.left == null ? 0 : tree.left.size;
-        if (k==1+leftSize) return tree;
-        else {
-          tree=tree.right;
-          k-=leftSize+1;
-        }
-      } else {
-        tree=tree.left;
-      }
+        if (leftSize + 1 == k) return tree;
+        tree = tree.right;
+        k = k-leftSize-1;
+      } else tree = tree.left;
     }
     return null;
   }

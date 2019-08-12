@@ -31,7 +31,7 @@ public class SortIncreasingDecreasingArray {
                                                              : SubarrayType.DECREASING;
       }
     }
-    return SortedArraysMerge.mergeSortedArrays(subArrayList);
+    return SortedArraysMerge.mergeSortedArrays_heap(subArrayList);
   }
 
   private enum SubarrayType {

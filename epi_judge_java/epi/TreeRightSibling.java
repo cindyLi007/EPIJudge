@@ -16,9 +16,50 @@ public class TreeRightSibling {
     public BinaryTreeNode(T data) { this.data = data; }
   }
 
+  // 9.16 variant
   public static void constructRightSibling(BinaryTreeNode<Integer> tree) {
-    // Implement this placeholder.
-    return;
+    if (tree==null) return;
+    construct(tree);
+    BinaryTreeNode<Integer> node = tree;
+    /*while (node!=null && !isLeaf(node)) {
+      BinaryTreeNode<Integer> first = node.left;
+      while (node!=null) {
+        node.left.right.right = node.right == null ? null : node.right.left;
+        node = node.next;
+      }
+      node = first;
+    }*/
+    System.out.println();
+  }
+
+  private static boolean isLeaf(BinaryTreeNode<Integer> node) {
+    return node.left == null;
+  }
+
+  private static void construct(BinaryTreeNode<Integer> tree) {
+    if (tree.left==null && tree.right==null) return;
+    construct(tree.right);
+    construct(tree.left);
+    tree.left.right = tree.right;
+    tree.right = null;
+    if (!isLeaf(tree.left)) connect(tree.left, tree.left.right);
+  }
+
+  private static void connect(BinaryTreeNode left, BinaryTreeNode right) {
+    left.left.right.right = right.left;
+  }
+
+  // Time: O(N), Space: O(1)
+  public static void constructRightSibling_1(BinaryTreeNode<Integer> tree) {
+    while (tree!=null) {
+      BinaryTreeNode<Integer> temp = tree;
+      while (tree!=null && tree.left!=null) {
+        tree.left.next = tree.right;
+        tree.right.next = tree.next != null ? tree.next.left : null;
+        tree = tree.next;
+      }
+      tree = temp.left;
+    }
   }
 
   private static BinaryTreeNode<Integer>

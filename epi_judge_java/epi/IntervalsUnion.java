@@ -47,7 +47,6 @@ public class IntervalsUnion {
       } else {
         if (i.right.val>prev.right.val || (i.right.val==prev.right.val && i.right.isClosed && !prev.right.isClosed)) {
           prev.right = i.right;
-          res.set(res.size()-1, prev);
         }
       }
     }

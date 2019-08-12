@@ -21,8 +21,20 @@ public class MinimumPointsCoveringIntervals {
   @EpiTest(testfile = "minimum_points_covering_intervals.tsv")
 
   public static Integer findMinimumVisits(List<Interval> intervals) {
-    // Implement this placeholder.
-    return 0;
+    intervals.sort((i1, i2) -> Integer.compare(i1.right, i2.right));
+    if (intervals.size() <=1)
+      return intervals.size();
+    int res = 1;
+    Interval prev = intervals.get(0);
+    for (int i = 1; i < intervals.size(); i++) {
+      if (intervals.get(i).left <= prev.right) {
+        continue;
+      } else {
+        res++;
+        prev = intervals.get(i);
+      }
+    }
+    return res;
   }
 
   public static void main(String[] args) {

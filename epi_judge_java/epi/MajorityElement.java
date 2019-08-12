@@ -9,8 +9,20 @@ import java.util.List;
 public class MajorityElement {
 
   public static String majoritySearch(Iterator<String> stream) {
-    // Implement this placeholder.
-    return "";
+    int count = 0;
+    String res = "";
+    while (stream.hasNext()) {
+      String s = stream.next();
+      if (count == 0) {
+        res=s;
+        count=1;
+      } else if (res.equals(s)) {
+        count++;
+      } else {
+        count--;
+      }
+    }
+    return res;
   }
 
   @EpiTest(testfile = "majority_element.tsv")

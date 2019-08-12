@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * multiply 2 numbers stored in array and return result as an array. The sign is represented by the first digit in the array
@@ -14,36 +15,25 @@ import java.util.List;
 public class IntAsArrayMultiply {
   @EpiTest(testfile = "int_as_array_multiply.tsv")
   public static List<Integer> multiply(List<Integer> num1, List<Integer> num2) {
-    // boolean can do XOR
-    int sign = num1.get(0) < 0 ^ num2.get(0) < 0 ? -1 : 1;
-    int len1 = num1.size(), len2 = num2.size(), len = len1 + len2;
-    /**
-     * Collections.nCopies is an API to returns an immutable list consisting of N copies of the specified object.
-     */
-    List<Integer> res = new ArrayList<>(Collections.nCopies(len, 0));
-    for (int i = len2 - 1; i >= 0; i--) {
-      for (int j = len1 - 1; j >= 0; j--) {
-        int mul = Math.abs(num2.get(i) * num1.get(j));
-        res.set(i + j + 1, mul + res.get(i + j + 1));
-//        res.set(i+j, res.get(i+j+1)/10 + res.get(i+j));
-//        res.set(i+j+1, res.get(i+j+1)%10);
+    int M=num1.size(), N=num2.size(), len = M+N;
+    // boolean can also XOR
+    int sign = (num1.get(0) < 0) ^ (num2.get(0) < 0) ? -1 : 1;
+    num1.set(0, Math.abs(num1.get(0)));
+    num2.set(0, Math.abs(num2.get(0)));
+
+    List<Integer> res = new ArrayList<>(Collections.nCopies(M+N, 0));
+    for (int i = M - 1; i >= 0; i--) {
+      for (int j = N - 1; j >= 0; j--) {
+        int v = res.get(i+j+1) + num1.get(i) * num2.get(j);
+        res.set(i+j, res.get(i+j) + v/10);
+        res.set(i+j+1, v%10);
       }
     }
-    int carry = 0;
-    for (int i = len - 1; i >= 0; i--) {
-      int sum = res.get(i) + carry;
-      res.set(i, sum % 10);
-      carry = sum / 10;
-    }
-    // Remove the leading zero
-    int firstNotZero = 0;
-    while (firstNotZero < len && res.get(firstNotZero) == 0) {
-      firstNotZero++;
-    }
-    // Notice API asList and subList
-    if (firstNotZero == len) return Arrays.asList(0);
-    res = res.subList(firstNotZero, len);
-    res.set(0, res.get(0) * sign);
+    int firstNonZeroIndex = 0;
+    while (firstNonZeroIndex<len && res.get(firstNonZeroIndex)==0) firstNonZeroIndex++;
+    if (firstNonZeroIndex==len) return Arrays.asList(0);
+    res=res.subList(firstNonZeroIndex, len);
+    res.set(0, sign * res.get(0));
     return res;
   }
 

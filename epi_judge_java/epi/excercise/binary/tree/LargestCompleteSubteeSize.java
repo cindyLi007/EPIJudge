@@ -7,14 +7,16 @@ import epi.BinaryTreeNode;
  */
 public class LargestCompleteSubteeSize {
   private static class CompleteStatusWithHeightSize {
-    public CompleteStatusWithHeightSize(boolean isComplete, int height, int size) {
+    public CompleteStatusWithHeightSize(boolean isComplete, boolean isPerfect, int height, int size) {
       this.isComplete = isComplete;
+      this.isPerfect = isPerfect;
       this.height = height;
       this.size = size;
     }
 
     // whether the tree from root is complete
     public boolean isComplete;
+    public boolean isPerfect;
     public int height;
     public int size;
   }
@@ -25,24 +27,26 @@ public class LargestCompleteSubteeSize {
 
   private static CompleteStatusWithHeightSize checkSubTree(BinaryTreeNode<Integer> tree) {
     if (tree==null) {
-      return new CompleteStatusWithHeightSize(true, 0, 0);
+      return new CompleteStatusWithHeightSize(true, true, 0, 0);
     }
 
     CompleteStatusWithHeightSize left = checkSubTree(tree.left);
     CompleteStatusWithHeightSize right = checkSubTree(tree.right);
 
-    // Only when left and right are both complete, we need check whether tree is complete
-    if (left.isComplete && right.isComplete) {
-      boolean isComplete = left.height - right.height <= 1 && left.height - right.height >=0;
-      if (isComplete) {
-        int height = left.height + 1;
-        int size = left.size + right.size + 1;
-        return new CompleteStatusWithHeightSize(true, height, size);
-      } else {
-      return new CompleteStatusWithHeightSize(false, -1, Math.max(left.size, right.size));
-      }
-    } else { // any subtree is not complete, tree could not be a complete tree, so only return the largest size of subtree
-      return new CompleteStatusWithHeightSize(false, -1, Math.max(left.size, right.size));
+    // Case 1: if left is perfect and right is complete and their height is same, tree is complete or perfect.
+    if (left.isPerfect && right.isComplete && left.height == right.height) { // also include right is perfect
+      return new CompleteStatusWithHeightSize(true, right.isPerfect, left.height + 1,
+              left.size + right.size + 1);
     }
+
+    // Case 2: if left is not perfect but complete, only right is perfect and 1 less height than left, tree can be complete
+    // but not perfect
+    if (left.isComplete && right.isPerfect && left.height == right.height + 1) {
+      return new CompleteStatusWithHeightSize(true, false, left.height + 1,
+              left.size + right.size + 1);
+    }
+
+    // Case 3: tree can't be a complete tree
+    return new CompleteStatusWithHeightSize(false, false,-1, Math.max(left.size, right.size));
   }
 }

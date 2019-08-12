@@ -6,6 +6,8 @@ import epi.test_framework.GenericTest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.OptionalDouble;
+import java.util.function.ToIntBiFunction;
 import java.util.stream.Collectors;
 
 public class TreeLevelOrder {
@@ -21,6 +23,9 @@ public class TreeLevelOrder {
 
     List<BinaryTreeNode<Integer>> currentDepthNode = Arrays.asList(tree);
     while (!currentDepthNode.isEmpty()) {
+      // This is a way to get average of this level
+      int average = (int)currentDepthNode.stream()
+              .mapToInt(node -> node.data).average().getAsDouble();
       res.add(currentDepthNode.stream()
           .map(node -> node.data)
           .collect(Collectors.toList()));

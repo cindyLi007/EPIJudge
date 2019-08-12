@@ -44,6 +44,8 @@ public class ABSqrt2 {
             Number candPlus1 = new Number(cand.get(i).a+1, cand.get(i).b);
             Number candPlusSqrt2 = new Number(cand.get(j).a, cand.get(j).b+1);
             cand.add(candPlus1.val < candPlusSqrt2.val ? candPlus1 : candPlusSqrt2);
+            // Notice here must compare the just-inserted-val with cand1 and cand2 both because cand1 can equals to cand2 sometimes
+            // check book
             if (Double.compare(cand.get(n).val, candPlus1.val)==0) i++;
             if (Double.compare(cand.get(n).val, candPlusSqrt2.val)==0) j++;
         }

@@ -4,6 +4,8 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TaskPairing {
@@ -42,8 +44,14 @@ public class TaskPairing {
 
   public static List<PairedTasks>
   optimumTaskAssignment(List<Integer> taskDurations) {
-    // Implement this placeholder.
-    return null;
+    Collections.sort(taskDurations);
+    int i=0, j=taskDurations.size()-1;
+    List<PairedTasks> res = new ArrayList<>();
+    while (i<j) {
+      res.add(new PairedTasks(taskDurations.get(i++), taskDurations.get(j--)));
+    }
+
+    return res;
   }
 
   public static void main(String[] args) {

@@ -12,6 +12,7 @@ public class IsTreeBalanced {
     return false;
   }
 
+  // post order
   public static int heightOfTree(BinaryTreeNode<Integer> tree) {
     if (tree==null) {
       return 0;

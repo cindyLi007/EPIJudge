@@ -17,8 +17,9 @@ public class SmallestNonconstructibleValue {
       if (a>maxValue+1) {
         break;
       }
-      // since we know [1, maxValue] is consecutive, so [a, maxValue+a] is consecutive, but only when this 2 interval is
-      // consecutive, the [1, maxValue+a] is consecutive. We can NOT guarantee that a<=maxValue+1, so we first check a>maxValue
+      // in this case a <=maxValue + 1, so a must connect maxValue
+      // since we know [1, maxValue] is consecutive, so [a, maxValue+a] is consecutive
+      // since A is sorted maxValue+a must be the next Max Value
       maxValue += a;
     }
     return maxValue+1;

@@ -17,9 +17,21 @@ public class UniformRandomNumber {
   }
 
   public static int uniformRandom(int lowerBound, int upperBound) {
-    // Implement this placeholder.
-    return 0;
+    // Notice: this is NO Math.log2(), so we could not use Math.log2(N) to count the times. we need use bit shift to count teh times
+    int N = upperBound - lowerBound + 1;
+    int res = 0;
+    while (true) {
+      for (int i=0; (1<<i) < N; i++) {
+        res = res<<1 | zeroOneRandom();
+      }
+      if (res < N) {
+        return res + lowerBound;
+      } else {
+        res = 0;
+      }
+    }
   }
+
 
   private static boolean uniformRandomRunner(TimedExecutor executor,
                                              int lowerBound, int upperBound)

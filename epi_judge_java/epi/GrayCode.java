@@ -22,7 +22,7 @@ public class GrayCode {
     return grayCodeHelper(numBits);
   }
 
-  // Time: O(N), Space: O(N)
+  // Time: O(2^N), Space: O(N)
   private static List<Integer> grayCodeHelper(int numBits) {
     if (numBits == 0) {
       return new ArrayList<>(Arrays.asList(0));

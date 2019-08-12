@@ -3,11 +3,30 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
+import static com.sun.javafx.animation.TickCalculation.add;
+import static java.lang.Long.sum;
+
 public class PrimitiveMultiply {
   @EpiTest(testfile = "primitive_multiply.tsv")
   public static long multiply(long x, long y) {
-    // Implement this placeholder.
-    return 0;
+    long res = 0;
+    while (x!=0) {
+      if ((x&1)==1) {
+        res = bitAdd(res, y);
+      }
+      y <<=1;
+      x >>= 1;
+    }
+    return res;
+  }
+
+  private static long bitAdd(long res, long y) {
+    while (y!=0) {
+      long carry = res & y;
+      res ^= y;
+      y = carry<<1;
+    }
+    return res;
   }
 
   public static void main(String[] args) {

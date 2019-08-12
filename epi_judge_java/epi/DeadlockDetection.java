@@ -11,16 +11,45 @@ import java.util.List;
 public class DeadlockDetection {
 
   public static class GraphVertex {
-
+    public enum Color {WHITE, GRAY, BLACK }
     public List<GraphVertex> edges;
+    public Color color;
 
-    public GraphVertex() { edges = new ArrayList<>(); }
+    public GraphVertex() {
+      edges = new ArrayList<>();
+      color = Color.WHITE;
+    }
   }
 
+  // Time: O(V + E), Space: O(V)
   public static boolean isDeadlocked(List<GraphVertex> graph) {
-    // Implement this placeholder.
+    // check all Vertex in G
+    for (GraphVertex v : graph) {
+      if (!dfs(v)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private static boolean dfs(GraphVertex vertex) {
+    if (vertex.color == GraphVertex.Color.BLACK) {
+      return true;
+    }
+    if (vertex.color == GraphVertex.Color.GRAY) {
+      return false;
+    }
+    vertex.color = GraphVertex.Color.GRAY;
+    for (GraphVertex v : vertex.edges) {
+      if (!dfs(v)) {
+        return false;
+      }
+    }
+    vertex.color = GraphVertex.Color.BLACK;
     return true;
   }
+
 
   @EpiUserType(ctorParams = {int.class, int.class})
   public static class Edge {

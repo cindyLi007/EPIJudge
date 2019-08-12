@@ -6,8 +6,18 @@ import epi.test_framework.GenericTest;
 public class PrimitiveDivide {
   @EpiTest(testfile = "primitive_divide.tsv")
   public static int divide(int x, int y) {
-    // Implement this placeholder.
-    return 0;
+    int res = 0;
+    int power = 32;
+    long yPower = y << power;
+    while (x >= y) {
+      while (yPower > x) {
+        yPower >>>= 1;
+        power--;
+      }
+      res += 1 << power;
+      x -= yPower;
+    }
+    return res;
   }
 
   public static void main(String[] args) {

@@ -16,7 +16,7 @@ public class DutchNationalFlag {
     Color pivot = A.get(pivotIndex);
     /**
      * left is the first left element == pivot
-     * right is left elem of the first left element > pivot
+     * right is most right elem element == pivot
      */
     int left=0, i=0, right=A.size()-1;
     while (i<=right) { // must be i<=right, because index right element belongs to unclassified category

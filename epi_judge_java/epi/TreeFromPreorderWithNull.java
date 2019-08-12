@@ -7,13 +7,25 @@ import epi.test_framework.TimedExecutor;
 import java.util.ArrayList;
 import java.util.List;
 
+// Time: O(N), Space: O(h)
 public class TreeFromPreorderWithNull {
+  static int subtreeIdx;
 
-  public static BinaryTreeNode<Integer>
-  reconstructPreorder(List<Integer> preorder) {
-    // Implement this placeholder.
-    return null;
+  public static BinaryTreeNode<Integer> reconstructPreorder(List<Integer> preorder) {
+      subtreeIdx=0;
+      return helper(preorder);
   }
+
+  private static BinaryTreeNode<Integer> helper(List<Integer> preorder) {
+    Integer val = preorder.get(subtreeIdx++);
+    if (val==null) {
+      return null;
+    }
+    BinaryTreeNode<Integer> left = helper(preorder);
+    BinaryTreeNode<Integer> right = helper((preorder));
+    return new BinaryTreeNode<>(val, left, right);
+  }
+
 
   @EpiTest(testfile = "tree_from_preorder_with_null.tsv")
   public static BinaryTreeNode<Integer>

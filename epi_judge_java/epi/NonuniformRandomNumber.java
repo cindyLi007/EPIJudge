@@ -6,18 +6,26 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class NonuniformRandomNumber {
 
+  // Time: O(N) to init intervals array, after that render a Random number is O(lgN), Space: O(N)
   public static int
   nonuniformRandomNumberGeneration(List<Integer> values,
                                    List<Double> probabilities) {
-    // Implement this placeholder.
-    return 0;
+    List<Double> intervals = new ArrayList<>();
+    for (Double p : probabilities) {
+      intervals.add((intervals.size() == 0 ? 0 : intervals.get(intervals.size() - 1)) + p);
+    }
+    Random rand = new Random();
+    int index = Collections.binarySearch(intervals, rand.nextDouble());
+    if (index<0) {
+      // index = -1-insertIdx => Math.abs(index+1) = insertInd
+      return values.get(Math.abs(index + 1));
+    } else {
+      return values.get(index);
+    }
   }
 
   private static boolean nonuniformRandomNumberGenerationRunner(

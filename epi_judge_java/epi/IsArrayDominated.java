@@ -5,6 +5,7 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,8 +27,18 @@ class Team {
   }
 
   // Checks if team0 can be placed in front of team1.
+  // Time: O(nlgN) for sorting
   public static boolean validPlacementExists(Team team0, Team team1) {
-    // Implement this placeholder.
+    // Use this way can avoid change the team1/2.players list
+    List<Player> players1 = team0.players.stream().sorted().collect(Collectors.toList());
+    List<Player> players2 = team1.players.stream().sorted().collect(Collectors.toList());
+
+    for (int i=0; i<players1.size(); i++) {
+      if (players1.get(i).compareTo(players2.get(i)) >=0) {
+        return false;
+      }
+    }
+
     return true;
   }
 

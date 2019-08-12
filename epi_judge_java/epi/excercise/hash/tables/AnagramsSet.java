@@ -16,7 +16,7 @@ public class AnagramsSet {
     Map<String, List<String>> map = new HashMap<>();
     for (String word : dictionary) {
       int keyVal = word.chars().reduce(0, (val, c) -> val + c);
-      String key = String.valueOf(keyVal) + "_" + word.length();
+      String key = keyVal + "_" + word.length();
       map.putIfAbsent(key, new ArrayList<>());
       map.get(key).add(word);
     }

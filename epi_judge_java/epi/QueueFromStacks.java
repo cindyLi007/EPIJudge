@@ -7,19 +7,27 @@ import epi.test_framework.TestFailure;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Stack;
 
 public class QueueFromStacks {
-
+ // Time: O(1), Space: O(1) for each enqueu and deque
   public static class Queue {
+    Stack<Integer> left = new Stack<>(), right = new Stack<>();
 
     public void enqueue(Integer x) {
-      // Implement this placeholder.
-      return;
+      left.push(x);
     }
 
     public Integer dequeue() {
-      // Implement this placeholder.
-      return 0;
+      if (right.isEmpty()) {
+        if (left.isEmpty()) {
+          throw new NoSuchElementException();
+        }
+        while (!left.isEmpty()) {
+          right.push(left.pop());
+        }
+      }
+      return right.pop();
     }
   }
 

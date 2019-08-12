@@ -5,27 +5,54 @@ import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.IntStream;
 
 public class CircularQueue {
-
+  /*
+    Using a resizing array to implement a queue API
+   */
   public static class Queue {
+    int head, tail, numberOfElem;
+    final static int SIZE_FACTOR = 2;
+    Integer[] entries;
 
-    public Queue(int capacity) {}
+    public Queue(int capacity) {
+      entries = new Integer[capacity];
+      head = 0;
+      tail = 0;
+      numberOfElem = 0;
+    }
 
     public void enqueue(Integer x) {
-      // Implement this placeholder.
-      return;
+      if (numberOfElem == entries.length) {
+        // rotate array, to put index head as the idx 0 element
+        // use this rotate API must apply to List<Integer>, so must create Integer[] array, int[] could not make effective rotatation
+        Collections.rotate(Arrays.asList(entries), -head);
+        head = 0;
+        tail = entries.length;
+        entries = Arrays.copyOf(entries, SIZE_FACTOR * numberOfElem);
+      }
+      numberOfElem++;
+      entries[tail++] = x;
+      tail %= entries.length;
     }
 
     public Integer dequeue() {
-      // Implement this placeholder.
-      return 0;
+      if (numberOfElem == 0) {
+        throw new NoSuchElementException();
+      }
+      Integer res = entries[head++];
+      head %= entries.length;
+      numberOfElem--;
+      return res;
     }
 
     public int size() {
-      // Implement this placeholder.
-      return 0;
+      return numberOfElem;
     }
 
     @Override

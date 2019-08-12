@@ -9,8 +9,17 @@ public class TwoSum {
   @EpiTest(testfile = "two_sum.tsv")
 
   public static boolean hasTwoSum(List<Integer> A, int t) {
-    // Implement this placeholder.
-    return true;
+    for (int i = 0, j = A.size() - 1; i <= j; ) {
+      int sum = A.get(i) + A.get(j);
+      if (sum == t) {
+        return true;
+      } else if (sum < t) {
+        i++;
+      } else {
+        j--;
+      }
+    }
+    return false;
   }
 
   public static void main(String[] args) {

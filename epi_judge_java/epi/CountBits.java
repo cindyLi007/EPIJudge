@@ -9,8 +9,8 @@ public class CountBits {
   public static short countBits(int x) {
     short result =0;
     while (x>0) {
-      result += (x&1);
-      x >>= 1;
+      result++;
+      x &= (x-1);
     }
     return result;
   }

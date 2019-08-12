@@ -15,7 +15,7 @@ public class StringIntegerInterconversion {
     StringBuilder sb = new StringBuilder();
     boolean neg = x < 0 ? true : false;
 
-    // for x==0, we must first do then while, the "while-do" syntax is wrong
+    // for x==0, we must first do, then while, the "while-do" syntax is wrong
     do {
       // we must not set x=Math.abs(x) because if x == MIN_VALUE, will overflow
       sb.append(Math.abs(x % 10));

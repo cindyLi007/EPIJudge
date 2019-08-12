@@ -1,18 +1,12 @@
 package epi;
 
+import com.sun.corba.se.impl.orbutil.graph.Graph;
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
 public class GraphClone {
 
@@ -26,9 +20,22 @@ public class GraphClone {
     }
   }
 
+  // Time: O(V + E), Space: O(V)
   public static GraphVertex cloneGraph(GraphVertex graph) {
-    // Implement this placeholder.
-    return new GraphVertex(0);
+    Map<GraphVertex, GraphVertex> visited = new HashMap<>();
+    return cloneGraph(graph, visited);
+  }
+
+  private static GraphVertex cloneGraph(GraphVertex graph, Map<GraphVertex, GraphVertex> visited) {
+    if (visited.containsKey(graph)) {
+      return visited.get(graph);
+    }
+    GraphVertex clonedGraph = new GraphVertex(graph.label);
+    visited.put(graph, clonedGraph);
+    for (GraphVertex gv : graph.edges) {
+      clonedGraph.edges.add(cloneGraph(gv, visited));
+    }
+    return clonedGraph;
   }
 
   private static List<Integer> copyLabels(List<GraphVertex> edges) {

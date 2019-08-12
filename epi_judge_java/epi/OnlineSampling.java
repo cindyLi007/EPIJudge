@@ -6,18 +6,35 @@ import epi.test_framework.RandomSequenceChecker;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class OnlineSampling {
 
   // Assumption: there are at least k elements in the stream.
+  // Time: O(N), Space: O(K)
   public static List<Integer> onlineRandomSample(Iterator<Integer> stream,
                                                  int k) {
-    // Implement this placeholder.
-    return Collections.emptyList();
+    List<Integer> res = new ArrayList<>();
+    while (res.size()<k && stream.hasNext()) {
+      res.add(stream.next());
+    }
+
+    int N=k;
+    Random random = new Random();
+    // the equally presents every new incoming item has the chance to be put in first [0, k-1] list
+    // statically treat the stream [0, N), we know we need select K elem, so every item has K/N possibility into the sample
+    while (stream.hasNext()) {
+      int x = stream.next();
+      N++;
+      int toBeRemovedIndex = random.nextInt(N);
+      // we partition 2 ranges [0, k) and [k, N), an idx has k/N possibility fall in the first one and (N-K)/N fall in the
+      // second range. If the toBeRemovedIndex is in first range, that means we will replace
+      if (toBeRemovedIndex < k) {
+        res.set(toBeRemovedIndex, x);
+      }
+    }
+
+    return res;
   }
 
   private static boolean onlineRandomSampleRunner(TimedExecutor executor,

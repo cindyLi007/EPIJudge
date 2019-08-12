@@ -81,6 +81,7 @@ public class CalendarRendering {
     for (Endpoint endpoint : E) {
       if (endpoint.isStart) {
         current++;
+        // we must check maxEvent when an event start, that is the key point for reach maxEvent
         max = Math.max(current, max);
       } else {
         current--;

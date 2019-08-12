@@ -10,15 +10,32 @@ import java.util.List;
 
 public class MaxTeamsInPhotograph {
 
+  // Each Vertex is a team, each edge in the vertex points to another Vertex(team) presenting this team can be put behind
+  // the other one
   public static class GraphVertex {
     public List<GraphVertex> edges = new ArrayList<>();
     // Set maxDistance = 0 to indicate unvisited vertex.
     public int maxDistance = 0;
   }
 
+  // Time: O(V + E), Space: O(V)
   public static int findLargestNumberTeams(List<GraphVertex> graph) {
-    // Implement this placeholder.
-    return 0;
+    int max = 1;
+    for (GraphVertex v : graph) {
+      max = Math.max(max, dfs(v));
+    }
+    return max;
+  }
+
+  private static int dfs(GraphVertex v) {
+    if (v.maxDistance!=0) {
+      return v.maxDistance;
+    }
+    v.maxDistance = 1;
+    for (GraphVertex vertex : v.edges) {
+      v.maxDistance = Math.max(v.maxDistance, dfs(vertex) + 1);
+    }
+    return v.maxDistance;
   }
 
   @EpiUserType(ctorParams = {int.class, int.class})

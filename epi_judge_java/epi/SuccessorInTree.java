@@ -7,9 +7,20 @@ import epi.test_framework.TimedExecutor;
 
 public class SuccessorInTree {
 
+  // Time: O(h), Space: O(1)
   public static BinaryTree<Integer> findSuccessor(BinaryTree<Integer> node) {
-    // Implement this placeholder.
-    return null;
+    if (node.right != null) {
+      node = node.right;
+      while (node.left != null) {
+        node = node.left;
+      }
+      return node;
+    }
+
+    while (node.parent != null && node.parent.right == node) {
+      node = node.parent;
+    }
+    return node.parent;
   }
 
   @EpiTest(testfile = "successor_in_tree.tsv")

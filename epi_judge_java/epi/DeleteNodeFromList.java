@@ -7,9 +7,10 @@ import epi.test_framework.TimedExecutor;
 public class DeleteNodeFromList {
 
   // Assumes nodeToDelete is not tail.
+  // Time: O(1), Space: O(1)
   public static void deletionFromList(ListNode<Integer> nodeToDelete) {
-    // Implement this placeholder.
-    return;
+    nodeToDelete.data = nodeToDelete.next.data;
+    nodeToDelete.next = nodeToDelete.next.next;
   }
 
   @EpiTest(testfile = "delete_node_from_list.tsv")

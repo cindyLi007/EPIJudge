@@ -7,12 +7,17 @@ import epi.test_framework.TestUtils;
 import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AlternatingArray {
+  // Time: O(N), Space: O(1)
   public static void rearrange(List<Integer> A) {
-    // Implement this placeholder.
-    return;
+    for (int i = 1; i < A.size(); i++) {
+      if (i%2 ==0 && A.get(i) > A.get(i-1) || i%2==1 && A.get(i) < A.get(i - 1)) {
+        Collections.swap(A, i, i-1);
+      }
+    }
   }
 
   private static void checkOrder(List<Integer> A) throws TestFailure {

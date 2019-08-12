@@ -8,8 +8,19 @@ import java.util.List;
 public class MatrixRotation {
 
   public static void rotateMatrix(List<List<Integer>> squareMatrix) {
-    // Implement this placeholder.
-    return;
+    int N=squareMatrix.size()-1;
+    for (int i = 0; i < squareMatrix.size() / 2; i++) {
+      for (int j = i; j < N-i; j++) {
+        int t2 = squareMatrix.get(j).get(i);
+        int t3 = squareMatrix.get(i).get(N-j);
+        int t4 = squareMatrix.get(N-j).get(N-i);
+        int t1 = squareMatrix.get(N-i).get(j);
+        squareMatrix.get(j).set(i, t1);
+        squareMatrix.get(i).set(N-j, t2);
+        squareMatrix.get(N-j).set(N-i, t3);
+        squareMatrix.get(N-i).set(j, t4);
+      }
+    }
   }
 
   @EpiTest(testfile = "matrix_rotation.tsv")

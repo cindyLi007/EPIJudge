@@ -5,10 +5,19 @@ import epi.test_framework.GenericTest;
 
 public class RemoveDuplicatesFromSortedList {
   @EpiTest(testfile = "remove_duplicates_from_sorted_list.tsv")
-
+  // Time: O(N), Space: O(1)
   public static ListNode<Integer> removeDuplicates(ListNode<Integer> L) {
-    // Implement this placeholder.
-    return null;
+    if (L==null) return L;
+    ListNode<Integer> run = L.next, prev = L;
+    while (run!=null) {
+      if (run.data == prev.data) {
+        prev.next = run.next;
+      } else {
+        prev = run;
+      }
+      run=run.next;
+    }
+    return L;
   }
 
   public static void main(String[] args) {

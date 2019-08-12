@@ -47,14 +47,19 @@ public class SearchForMinMaxInArray {
 
   @EpiTest(testfile = "search_for_min_max_in_array.tsv")
 
+  // Time: O(N), Space: O(1)
   public static MinMax findMinMax(List<Integer> A) {
-    MinMax res = new MinMax(A.get(0), A.get(0));
-    for (int i=0; i<A.size(); i++) {
-      if (A.get(i)<res.smallest) {
-        res.smallest=A.get(i);
-      } else if (A.get(i)>res.largest) {
-        res.largest=A.get(i);
-      }
+    if (A.size()==1) {
+      return new MinMax(A.get(0), A.get(0));
+    }
+    // We can make the aux class constructor complicated, such as make a static method to call the constructor
+    MinMax res = MinMax.minMax(A.get(0), A.get(1));
+    for (int i=2; i<A.size()-1; i+=2) {
+      MinMax local = MinMax.minMax(A.get(i), A.get(i+1));
+      res = new MinMax(Math.min(local.smallest, res.smallest), Math.max(local.largest, res.largest));
+    }
+    if (A.size()%2 != 0) {
+      res = new MinMax(Math.min(res.smallest, A.get(A.size()-1)), Math.max(res.largest, A.get(A.size()-1)));
     }
     return res;
   }

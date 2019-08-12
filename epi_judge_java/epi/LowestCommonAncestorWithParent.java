@@ -30,6 +30,7 @@ public class LowestCommonAncestorWithParent {
 
   // Time: O(h), Space: O(1)
   private static int depthOf(BinaryTree<Integer> node) {
+    // no need to set a local var for node, we change node here will not impact outside of thie method
     int depth=0;
     while (node != null) {
       depth++;

@@ -28,6 +28,7 @@ public class IsAnonymousLetterConstructible {
     for (char c : magazineText.toCharArray()) {
       if (letterCharFreqMap.containsKey(c)) {
         letterCharFreqMap.put(c, letterCharFreqMap.get(c) - 1);
+        /* Removes the entry for the specified key only if it is currently mapped to the specified value.*/
         letterCharFreqMap.remove(c, 0L);
         if (letterCharFreqMap.isEmpty()) {
           return true;

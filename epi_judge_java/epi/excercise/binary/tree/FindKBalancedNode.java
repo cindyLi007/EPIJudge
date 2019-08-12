@@ -46,7 +46,8 @@ public class FindKBalancedNode {
 
     // now we know both left and right are K-balanced, which mean all their subtree are K-balanced.
     boolean isKBalanced = Math.abs(left.size - right.size) <= k;
-    int size = left.size + right.size + 1;
-    return new BalanceStatusWithHeight(isKBalanced, size, tree);
+    int size = isKBalanced ? left.size + right.size + 1 : -1;
+    BinaryTreeNode<Integer> res = isKBalanced ? tree : left.node;
+    return new BalanceStatusWithHeight(isKBalanced, size, res);
   }
 }

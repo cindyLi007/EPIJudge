@@ -8,11 +8,17 @@ import epi.test_framework.TimedExecutor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class OfflineSampling {
+  // Time: O(k), Space: O(1)
   public static void randomSampling(int k, List<Integer> A) {
-    // Implement this placeholder.
-    return;
+    Random rand = new Random();
+    // if we already have (k-1) random list, how to build k random list? we can suppose from [0, k-2] has been randomly
+    // selected, then choose from [k-1, N), and swap it with pos (k-1)
+    for (int i = 0; i < k; i++) {
+      Collections.swap(A, i, i + rand.nextInt(A.size() - i));
+    }
   }
 
   private static boolean randomSamplingRunner(TimedExecutor executor, int k,

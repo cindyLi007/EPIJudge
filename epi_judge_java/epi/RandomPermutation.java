@@ -9,12 +9,16 @@ import epi.test_framework.TimedExecutor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class RandomPermutation {
 
   public static List<Integer> computeRandomPermutation(int n) {
-    // Implement this placeholder.
-    return Collections.emptyList();
+    List<Integer> res = IntStream.range(0, n).boxed().collect(Collectors.toList());
+    OfflineSampling.randomSampling(n, res);
+    return res;
   }
 
   private static int factorial(int n) {

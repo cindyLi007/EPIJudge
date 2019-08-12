@@ -39,7 +39,8 @@ public class HIndex {
     Collections.sort(citations);
     int len = citations.size();
     for (int i = 0; i < len; i++) {
-      if (len - i <= citations.get(i)) return len - i;
+      if (len - i <= citations.get(i))
+        return len - i;
     }
     return 0;
   }

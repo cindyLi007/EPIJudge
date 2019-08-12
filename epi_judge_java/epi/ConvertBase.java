@@ -8,17 +8,21 @@ public class ConvertBase {
 
   public static String convertBase(String numAsString, int b1, int b2) {
     boolean neg = numAsString.startsWith("-");
-    int numAsInt = numAsString.substring(neg ? 1 : 0)
-        .chars()
-        .reduce(0, (x, c) -> x * b1 + (Character.isDigit(c) ? c - '0' : c - 'A' + 10));
+    int numAsInt = 0;
+    int start = neg ? 1 : 0;
+    for (; start<numAsString.length(); start++) {
+      char c = numAsString.charAt(start);
+      int d = Character.isDigit(c) ? c-'0' : (c-'A')+10;
+      numAsInt = numAsInt * b1 + d;
+    }
     StringBuilder sb = new StringBuilder();
     do {
-      int num = numAsInt%b2;
-      sb.append(num >= 10 ? (char)((num-10)+'A') : (char)(num+'0'));
-      numAsInt/=b2;
-    } while (numAsInt!=0);
-    String res = sb.reverse().toString();
-    return neg ? "-"+res : res;
+      int currenntDigit = numAsInt % b2;
+      char c = currenntDigit > 9 ? (char)(currenntDigit-10 + 'A') : (char)(currenntDigit + '0');
+      sb.append(c);
+      numAsInt /= b2;
+     } while (numAsInt!=0);
+     return (neg ? "-" : "") + sb.reverse().toString();
   }
 
   public static void main(String[] args) {
