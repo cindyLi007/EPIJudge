@@ -7,8 +7,7 @@ import epi.test_framework.GenericTest;
 import java.util.ArrayList;
 import java.util.List;
 
-// Time: O(m+h) m is the nodes lie on the range, Space: O(h)
-public class RangeLookupInBST {
+public class RangeLookupInBst {
     @EpiUserType(ctorParams = {int.class, int.class})
 
     public static class Interval {
@@ -21,22 +20,13 @@ public class RangeLookupInBST {
     }
 
     @EpiTest(testfile = "range_lookup_in_bst.tsv")
-    // Time: O(h+m) where m is the number of keys in interval S
+
     public static List<Integer> rangeLookupInBst(BstNode<Integer> tree,
                                                  Interval interval) {
-        List<Integer> res = new ArrayList<>();
-        rangeLookupInBst(tree, interval, res);
-        return res;
-    }
 
-    private static void rangeLookupInBst(BstNode<Integer> tree, Interval interval, List<Integer> res) {
-        if (tree == null) return;
-        if (interval.left <= tree.data && tree.data <= interval.right) {
-            rangeLookupInBst(tree.left, interval, res);
-            res.add(tree.data);
-            rangeLookupInBst(tree.right, interval, res);
-        } else if (tree.data < interval.left) rangeLookupInBst(tree.right, interval, res);
-        else rangeLookupInBst(tree.left, interval, res);
+        List<Integer> result = new ArrayList<>();
+        rangeLookupInBstHelper(tree, interval, result);
+        return result;
     }
 
     public static void rangeLookupInBstHelper(BstNode<Integer> tree,
@@ -61,9 +51,7 @@ public class RangeLookupInBST {
         System.exit(
                 GenericTest
                         .runFromAnnotations(args,
-                                new Object() {
-                                }.getClass().getEnclosingClass())
+                                new Object() {}.getClass().getEnclosingClass())
                         .ordinal());
     }
 }
-

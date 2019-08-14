@@ -16,17 +16,13 @@ public class BstFromSortedArray {
 
     // Time: O(N)
     public static BstNode<Integer> buildMinHeightBSTFromSortedArray(List<Integer> A) {
-        return buildMinHeightBSTFromSortedArray(A, 0, A.size() - 1);
+        return helper(A, 0, A.size());
     }
 
-    private static BstNode<Integer> buildMinHeightBSTFromSortedArray(List<Integer> a, int start, int end) {
-        if (start > end) {
-            return null;
-        }
-        int mid = start + (end-start)/2;
-        BstNode<Integer> left = buildMinHeightBSTFromSortedArray(a, start, mid -1);
-        BstNode<Integer> right = buildMinHeightBSTFromSortedArray(a, mid + 1, end);
-        return new BstNode<>(a.get(mid), left, right);
+    private static BstNode<Integer> helper(List<Integer> a, int start, int end) {
+        if (start>=end) return null;
+        int mid = start + (end - start)/2;
+        return new BstNode<>(a.get(mid), helper(a, start, mid), helper(a, mid + 1, end));
     }
 
     @EpiTest(testfile = "bst_from_sorted_array.tsv")

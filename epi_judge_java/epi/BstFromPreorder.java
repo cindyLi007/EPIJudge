@@ -22,7 +22,7 @@ public class BstFromPreorder {
      * Everytime define the subtree range, if the next value out of the range, that means it is not in the
      * subtree.
      */
-    if (root < minValue || root > maxValue) return null;
+    if (root <= minValue || root >= maxValue) return null;
     rootIdx++;
     // Note that in this method we update global var rootIdx, so the order of following 2 calls are critical
     BstNode<Integer> left = rebuildBSTFromPreorder(preorderSequence, minValue, root);
