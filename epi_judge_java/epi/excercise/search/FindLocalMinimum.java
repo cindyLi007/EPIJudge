@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Let A be an unsorted array of n integers, which A[0]>=A[i] and A[n-2]<=A[n-1]. Call an index i
- * a local minimum if A[i] is less than or equal ot its neighbors.
+ * Let A be an unsorted array of n integers, which A[0]>=A[1] and A[n-2]<=A[n-1]. Call an index i
+ * a local minimum if A[i] is less than or equal to its neighbors.
  */
 public class FindLocalMinimum {
 

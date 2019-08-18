@@ -34,17 +34,18 @@ public class KthLargestInArray {
     return -1;
   }
 
+  // partition list A into 2 part, greater than A[pivot], A[pivot] and less than A[pivot]
   private static int partition(List<Integer> A, int left, int right, int pivot, Comparator<Integer> comparator) {
-    int val = A.get(pivot);
-    Collections.swap(A, pivot, right);
-    int newPivot = left;
+    int pivotValue = A.get(pivot);
+    Collections.swap(A, pivot, right); // first put pivot value to the last one in the  list range [left, right]
+    int newPivotIdx = left; // this idx should be the 1st occurrence idx of greater-than pivotValue
     for (int i=left; i<right; i++) {
-      if (comparator.compare(A.get(i), val)<0) {
-        Collections.swap(A, i, newPivot++);
+      if (comparator.compare(A.get(i), pivotValue) < 0) {
+        Collections.swap(A, i, newPivotIdx++);
       }
     }
-    Collections.swap(A, right, newPivot);
-    return newPivot;
+    Collections.swap(A, right, newPivotIdx);
+    return newPivotIdx;
   }
 
   // Time: O(N*lgK), Space: O(K)
