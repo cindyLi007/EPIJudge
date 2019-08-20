@@ -12,16 +12,17 @@ public class SearchFirstKey {
   public static int searchFirstOfK(List<Integer> A, int k) {
     int res = -1;
     int low=0, high=A.size()-1;
-    // Notice: must have =, otherwise, will miss hit value
-    while (low<=high) {
-      int mid = low+(high-low)/2;
-      if (A.get(mid)<k) {
-        low=mid+1;
-      } else if (A.get(mid)>k) {
-        high=mid-1;
-      } else {
-        res=mid;
-        high=mid-1;
+    while (low <= high) {
+      int mid = low + (high - low) / 2;
+      if (A.get(mid) < k) {
+        low = mid + 1;
+      }
+      if (A.get(mid) == k) {
+        res = mid;
+        high = mid-1;
+      }
+      if (A.get(mid) > k) {
+        high = mid - 1;
       }
     }
 

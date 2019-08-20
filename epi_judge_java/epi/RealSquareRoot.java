@@ -7,35 +7,32 @@ public class RealSquareRoot {
   @EpiTest(testfile = "real_square_root.tsv")
   // Time: O(logs x), s is the tolerance, Space: O(1)
   public static double squareRoot(double x) {
-    // First decide the initial interval, based on x>=1.0
-    double low=1.0, high=x;
-    if (x<1.0) { // for example, 0.25 sqrt is 0.5
-      low=x;
-      high=1.0;
+    double left, right;
+    if (x < 1.0) {
+      left = x;
+      right = 1.0;
+    } else {
+      left = 1.0;
+      right = x;
     }
 
-    // keeps searching as long as low!=high, within tolerance
-    while (compare(low, high)!=Ordering.EQUAL) {
-      double mid= low + (high-low)*0.5;
-      double midSquared = mid*mid;
-      if (compare(midSquared, x)==Ordering.LARGER) {
-        high=mid;
-      } else {
-        low=mid;
-      }
+    while (compare(left, right) != Ordering.EQUAL) {
+      double mid = left + (right - left) * 0.5;
+      double res = mid * mid;
+      if (compare(res, x) == Ordering.LARGER) {
+        right = mid;
+      } else left = mid;
     }
-    return low;
+
+    return left;
   }
 
   private enum Ordering { SMALLER, EQUAL, LARGER }
 
   private static Ordering compare(double x, double y) {
-    // tolerance
-    final double EPSILON = 0.000001;
-    // Uses normalization for precision problem.
-    double diff = (x - y) / Math.max(Math.abs(x), Math.abs(y));
-    return diff < -EPSILON ? Ordering.SMALLER :
-        (diff > EPSILON) ? Ordering.LARGER : Ordering.EQUAL;
+    double n = 0.000001;
+    double m = (x - y) / Math.max(x, y);
+    return m < -n ?  Ordering.SMALLER : (m > n ? Ordering.LARGER : Ordering.EQUAL);
   }
 
   public static void main(String[] args) {

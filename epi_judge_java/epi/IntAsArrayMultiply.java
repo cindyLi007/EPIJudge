@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
  */
 public class IntAsArrayMultiply {
   @EpiTest(testfile = "int_as_array_multiply.tsv")
+  // Time: O(M*N), Space: O(1)
   public static List<Integer> multiply(List<Integer> num1, List<Integer> num2) {
     int M=num1.size(), N=num2.size(), len = M+N;
     // boolean can also XOR

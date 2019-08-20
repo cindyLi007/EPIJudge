@@ -12,12 +12,11 @@ public class AdvanceByOffsets {
   @EpiTest(testfile = "advance_by_offsets.tsv")
   public static boolean canReachEnd(List<Integer> maxAdvanceSteps) {
     int farest=0, lastIndex = maxAdvanceSteps.size() - 1;
-    for (int i = 0; i <= farest && i <= lastIndex; i++) {
+    for (int i = 0; i<=lastIndex; i++) {
       farest = Math.max(farest, i + maxAdvanceSteps.get(i));
-      if (farest>=lastIndex)
-        return true;
+      if (farest <= i && i!=lastIndex) return false;
     }
-    return false;
+    return true;
   }
 
   public static void main(String[] args) {

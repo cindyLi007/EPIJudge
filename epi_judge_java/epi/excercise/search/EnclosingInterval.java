@@ -1,5 +1,8 @@
 package epi.excercise.search;
 
+import epi.SearchEntryEqualToIndex;
+import epi.SearchFirstKey;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,7 +15,6 @@ public class EnclosingInterval {
   // Time : O(logN), Space: O(1)
   public static int[] findInterval(List<Integer> list, int k) {
     int low = 0, high = list.size() - 1;
-
     int mid = 0;
     while (low <= high) {
       mid = low + (high - low) / 2;
@@ -47,6 +49,17 @@ public class EnclosingInterval {
         left = m+1;
       }
     }
+
+    /*if (low>high) return new int[]{-1, -1};
+    int offset1 = low - 0, offset2 = mid - 0;
+    left = SearchFirstKey.searchFirstOfK(list.subList(low, mid), k);
+    right = SearchFirstGreaterKey.searchFirstKeyGreaterThan(list.subList(mid, high+1), k);
+
+    left = left == -1 ? mid : left + offset1; // left == -1 means we did not find any occurrence in [left, mid),
+
+    right = right==-1 ? // right==-1 means there is no greater occurrence in (mid, high]
+            high : right == 0 ? // right==0 means the first element > k
+            mid : right + offset2 - 1; // otherwise right is the idx > k*/
 
     return new int[]{l, r};
   }

@@ -10,42 +10,34 @@ import java.util.*;
 public class AddingCredits {
 
   public static class ClientsCreditsInfo {
-    // Use bst to support Max() in O(1)
-    TreeMap<Integer, Set<String>> bst = new TreeMap<>();
-    // Use map to support remove, lookup in O(1)
-    Map<String, Integer> clientToCredit = new HashMap<>();
-    // use offset to support addAll in O(1). For later-added client-credit, should set the credit = credit - c;
+    Map<String, Integer> map = new HashMap<>();
+    // Is a sorted Map based on credits value, so we can quickly insert, delete
+    TreeMap<Integer, Set<String>> tree = new TreeMap<>();
     int offset = 0;
 
-    // Time: O(lgN), dominated by BST
+    // Time: O(lgN)
     public void insert(String clientID, int c) {
-      // since BST uses credit as the key, we must first remove it, update and insert back to BST
       remove(clientID);
-      clientToCredit.put(clientID, c - offset);
-      bst.putIfAbsent(c - offset, new HashSet<>());
-      bst.get(c - offset).add(clientID);
+      c -= offset;
+      map.put(clientID, c);
+      tree.computeIfAbsent(c, key -> new HashSet<>()).add(clientID);
     }
 
-    // Time: O(lgN), dominated by BST
+    // Time: O(lgN)
     public boolean remove(String clientID) {
-      if (clientToCredit.containsKey(clientID)) {
-        Integer credit = clientToCredit.remove(clientID);
-        Set<String> clientSet = bst.get(credit);
-        clientSet.remove(clientID);
-        // we need keep the BST as small as possible for fast search, so if there is no client bounds a credit,
-        // remove the node from BST
-        if (clientSet.isEmpty()) {
-          bst.remove(credit);
-        }
-        return true;
+      Integer credits = map.remove(clientID);
+      if (credits == null) {
+        return false;
       }
-      return false;
+      tree.get(credits).remove(clientID);
+      if (tree.get(credits).isEmpty()) tree.remove(credits);
+      return true;
     }
 
     // Time: O(1)
     public int lookup(String clientID) {
-      return clientToCredit.containsKey(clientID) ?
-              clientToCredit.get(clientID) + offset : -1;
+      Integer credits = map.get(clientID);
+      return credits == null ? -1 : credits.intValue() + offset;
     }
 
     // Time: O(1)
@@ -53,15 +45,15 @@ public class AddingCredits {
       offset += C;
     }
 
-    // Time: O(1), library BST implementation uses caching
+    // Time: O(lgN)
     public String max() {
-      return bst.isEmpty() ? "" : bst.lastEntry().getValue().iterator().next();
+      if (map.isEmpty()) return "";
+      return tree.lastEntry().getValue().iterator().next();
     }
 
     @Override
     public String toString() {
-      // Implement this placeholder.
-      return super.toString();
+      return "{clientToCredit=" + map + '}';
     }
   }
 

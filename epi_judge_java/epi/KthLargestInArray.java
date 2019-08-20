@@ -10,6 +10,7 @@ public class KthLargestInArray {
   // findKthLargest(A, 1) returns 3, findKthLargest(A, 2) returns 2,
   // findKthLargest(A, 3) returns 1, and findKthLargest(A, 4) returns -1.
   @EpiTest(testfile = "kth_largest_in_array.tsv")
+  // Time: O(N), Space: O(1)
   public static int findKthLargest(int k, List<Integer> A) {
     // the 3rd param is a reverseOrder comparator, this is a straightforward way to define Comparator
     return findKthLargest(A, k, (a, b) -> Integer.compare(b, a));

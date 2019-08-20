@@ -12,6 +12,7 @@ import java.util.List;
 public class DutchNationalFlag {
   public enum Color { RED, WHITE, BLUE }
 
+  // Time: O(N), Space: O(1)
   public static void dutchFlagPartition(int pivotIndex, List<Color> A) {
     Color pivot = A.get(pivotIndex);
     /**

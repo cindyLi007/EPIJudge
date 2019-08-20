@@ -15,20 +15,22 @@ public class SearchEntryEqualToIndexDup {
     }
 
     int mid = low + (high - low) / 2;
-    int diff = A.get(mid) - mid;
+    int num = A.get(mid);
+    int diff = num - mid;
     if (diff == 0) {
       return mid;
     }
 
     int res;
-    if (diff < 0) { // since may have duplicated element, left shift high pointer |diff|
-      res = searchEntryEqualToItsIndex(A, low, mid + diff);
+    if (diff < 0) {
+      // since may have duplicated element, directly jump to num, that is becuse [num+1, mid] all have condition (num<idx)
+      res = searchEntryEqualToItsIndex(A, low, num);
       if (res == -1) {
         res = searchEntryEqualToItsIndex(A, mid + 1, high);
       }
-    } else {
-      // since may have duplicated element, right shift low pointer diff to make index catch up value
-      res = searchEntryEqualToItsIndex(A, mid + diff, high);
+    } else { // diff > 0
+      // since may have duplicated element, directly jump to num, that is becuase [mid, num-1] all have condition (num>idx)
+      res = searchEntryEqualToItsIndex(A, num, high);
       if (res == -1) {
         res = searchEntryEqualToItsIndex(A, low, mid - 1);
       }
