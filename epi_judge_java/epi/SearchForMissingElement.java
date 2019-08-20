@@ -38,6 +38,7 @@ public class SearchForMissingElement {
 
     @Override
     public int hashCode() {
+      // Notice: when member is Object instead of primitive, must use the member's hashCode instead of value
       int result = duplicate.hashCode();
       result = 31 * result + missing.hashCode();
       return result;
@@ -56,9 +57,12 @@ public class SearchForMissingElement {
     for (int i=0; i<A.size(); i++) {
       xor ^= i ^ A.get(i);
     }
+
     // now xor is missing ^ duplicate
     // get the most right set-1 bit, for ex. 10010 & ~(10001) = 00010
     int lsOneBit = xor & ~(xor - 1);
+    // now we can only focus on the member/idx who has lsOneBit set, all of them and only all of them are candidates of dup or missing number
+    // because xor has that bit set means that bit is not pair-matched (either missing or dup), so all those number/idx that bit set can be candidate
     int candidate = 0;
     for (int i=0; i<A.size(); i++) {
       if ((lsOneBit & A.get(i))!=0) {

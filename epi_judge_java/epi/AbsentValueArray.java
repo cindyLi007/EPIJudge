@@ -14,7 +14,7 @@ public class AbsentValueArray {
     final int NUMBER_BUCKET = 1<<16;
     int[] count = new int[NUMBER_BUCKET];
     Iterator<Integer> iterator = stream.iterator();
-    // first round of reading the file, count for each 16-bit MSB group of int in stream (the 16-bit LSB should be different
+    // first round of reading the file, count for each 16-bit MSB group of int in stream (the 16-bit LSB should be different)
     // for each group, how many int
     while (iterator.hasNext()) {
       // >>> is logical shift, not keep the MSBit
@@ -22,6 +22,8 @@ public class AbsentValueArray {
       count[idx]++;
     }
 
+    // since total is 2^32 int, for each 16-bit MSB group, it should have 2^16 (1<<16) numbers, if one group count is less
+    // than that number, we know some int is missing
     for (int i=0; i<NUMBER_BUCKET; i++) {
       if (count[i] < NUMBER_BUCKET) {
         BitSet bitSet = new BitSet(NUMBER_BUCKET);
