@@ -14,6 +14,8 @@ public class PrimeSieve {
     if (n < 2) {
       return Collections.EMPTY_LIST;
     }
+    // java Math.floor returns the largest (closest to positive infinity) double value that is less than or equal to the argument a
+    // n = 2*i + 1 ; i from 0, when i==0, n is 3 size is 1
     final int size = (int)Math.floor(0.5 * (n - 3)) + 1;
     List<Integer> primes = new ArrayList<>();
     primes.add(2);

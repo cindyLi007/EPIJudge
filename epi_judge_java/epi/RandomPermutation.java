@@ -15,6 +15,7 @@ import java.util.stream.IntStream;
 
 public class RandomPermutation {
 
+  // Time: O(N)
   public static List<Integer> computeRandomPermutation(int n) {
     List<Integer> res = IntStream.range(0, n).boxed().collect(Collectors.toList());
     OfflineSampling.randomSampling(n, res);

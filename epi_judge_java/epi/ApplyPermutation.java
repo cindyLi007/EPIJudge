@@ -10,24 +10,21 @@ import java.util.List;
 public class ApplyPermutation {
   // Time: O(N), Space: O(1)
   public static void applyPermutation(List<Integer> perm, List<Integer> A) {
-    for (int i = 0; i < A.size(); i++) {
-      int cur = i;
-      while (perm.get(cur) >= 0) {
-        int loc = perm.get(cur); // what is the pos of A[next] should go
-        // each time swap value in loc and i, use i as the temp storage for next-processing value
-        // the value in index i is always we are procssing value, the value is loc is the next round we should processing value
-        Collections.swap(A, loc, i);
-        // set index of current procesing item to negative to indiate we have permuted this index
-        perm.set(cur, perm.get(cur) - A.size());
-        // we will process loc for next round
-        cur = loc;
+    int N = perm.size();
+    for (int i = 0; i < N; i++) {
+      int next = i;
+      while (perm.get(next) >= 0) {
+        Collections.swap(A, i, perm.get(next));
+        int temp = perm.get(next);
+        perm.set(next, perm.get(next) - N);
+        next = temp;
       }
     }
 
-    // restore perm
-    for (int i=0; i<A.size(); i++) {
-      perm.set(i, perm.get(i) + A.size());
+    for (int i = 0; i < N; i++) {
+      perm.set(i, perm.get(i) + N);
     }
+
   }
 
   public static void applyPermutation_withOutChangePerm(List<Integer> perm, List<Integer> A) {

@@ -28,7 +28,8 @@ public class OnlineSampling {
       N++;
       int toBeRemovedIndex = random.nextInt(N);
       // we partition 2 ranges [0, k) and [k, N), an idx has k/N possibility fall in the first one and (N-K)/N fall in the
-      // second range. If the toBeRemovedIndex is in first range, that means we will replace
+      // second range. If the toBeRemovedIndex is in first range, that means we select this new packet, will replace it with
+      // toBrRemovedIndex
       if (toBeRemovedIndex < k) {
         res.set(toBeRemovedIndex, x);
       }

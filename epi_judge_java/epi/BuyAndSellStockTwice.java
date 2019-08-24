@@ -3,24 +3,26 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BuyAndSellStockTwice {
   @EpiTest(testfile = "buy_and_sell_stock_twice.tsv")
   public static double buyAndSellStockTwice(List<Double> prices) {
-    double[] firstProfit = new double[prices.size()];
-    double minPrice = Double.MAX_VALUE, maxProfit = 0.0;
-    for (int i = 0; i < prices.size(); i++) {
-      minPrice = Math.min(prices.get(i), minPrice);
-      maxProfit = Math.max(prices.get(i) - minPrice, maxProfit);
-      firstProfit[i] = maxProfit;
+    List<Double> firstProfit = new ArrayList<>();
+    Double max = 0.0, min = Double.MAX_VALUE;
+    for (Double price : prices) {
+      min = Math.min(min, price);
+      max = Math.max(max, price - min);
+      firstProfit.add(max);
     }
-    maxProfit = 0.0;
-    double maxPrice = 0.0, res = 0.0;
-    for (int i = prices.size() - 1; i >= 0; i--) {
-      res = Math.max(res, firstProfit[i] + maxProfit);
-      maxPrice = Math.max(maxPrice, prices.get(i));
-      maxProfit = Math.max(maxProfit, maxPrice - prices.get(i));
+    double res = 0;
+    max = 0.0;
+    double profit = 0.0;
+    for (int i=prices.size()-1; i>=0; i--) {
+      res = Math.max(res, profit + firstProfit.get(i));
+      profit = Math.max(profit, max - prices.get(i));
+      max = Math.max(max, prices.get(i));
     }
     return res;
   }
