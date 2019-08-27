@@ -23,6 +23,9 @@ public class Combinations {
     if (list.size() == k) {
       res.add(new ArrayList<>(list));
     } else {
+      // check whether remaining numbers <= n-i+1 is very necessary, that is because from num i to num n, there is totally
+      // (n-i+1) numbers, but if we need more than (n-i+1) numbers to fill the set, that means i is too behind, we should
+      // skip from i and all element from i
       int remaining = k- list.size();
       for (int i=start; i<=n && remaining <= n-i+1; i++) {
         list.add(i);

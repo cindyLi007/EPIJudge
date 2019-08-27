@@ -37,10 +37,9 @@ public class SudokuSolve {
                 if (solveSudoku(partialAssignment, rowPos, colPos + 1)) {
                     return true;
                 }
+                partialAssignment.get(rowPos).set(colPos, 0);
             }
         }
-        // this means from 1 to 9 , there is NO solution for this [rowPos, colPos], we need backtrack to previous pos
-        partialAssignment.get(rowPos).set(colPos, 0);
 
         return false;
     }

@@ -14,6 +14,7 @@ public class RefactorSortedArray {
     int count=1;
     for (int i=1; i<A.size(); i++) {
       // Notice, since element in List is Integer, even value is same, A.get(i)==A.get(j) always return false;
+      // if we begin a new item, j is the writeIdx or we have not meet the threshold
       if (Integer.compare(A.get(i), A.get(j-1))!=0 || count<max) {
         count = Integer.compare(A.get(i), A.get(j-1))!=0 ? 1 : count+1;
         A.set(j++, A.get(i));
@@ -35,8 +36,8 @@ public class RefactorSortedArray {
 
   public static void main(String[] args) {
     List<Integer> list = Arrays.asList(2, 3, 4, 4, 4, 5, 10, 10);
-//    int res = RefactorSortedArray.deleteDuplicatesM(list, 3);
-    int res = RefactorSortedArray.deleteKey(list, 6);
+    int res = RefactorSortedArray.deleteDuplicatesM(list, 1);
+//    int res = RefactorSortedArray.deleteKey(list, 6);
     System.out.println("the number of refactor array is: " + res);
   }
 }

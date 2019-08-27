@@ -16,16 +16,16 @@ public class NonuniformRandomNumber {
                                    List<Double> probabilities) {
     List<Double> intervals = new ArrayList<>();
     for (Double p : probabilities) {
-      intervals.add((intervals.size() == 0 ? 0 : intervals.get(intervals.size() - 1)) + p);
+      intervals.add((intervals.size() == 0 ? 0.0 : intervals.get(intervals.size()-1)) + p);
     }
-    Random rand = new Random();
-    int index = Collections.binarySearch(intervals, rand.nextDouble());
-    if (index<0) {
-      // index = -1-insertIdx => Math.abs(index+1) = insertInd
-      return values.get(Math.abs(index + 1));
-    } else {
-      return values.get(index);
+    // intervals will be [0.25, 0.5 ....0.9, 1.0]
+    Random r = new Random();
+    int idx = Collections.binarySearch(intervals, r.nextDouble());
+    if (idx<0) {
+      // index = -1-insertIdx => Math.abs(index) - 1 = insertInd
+      return values.get(Math.abs(idx) - 1);
     }
+    return values.get(idx);
   }
 
   private static boolean nonuniformRandomNumberGenerationRunner(
