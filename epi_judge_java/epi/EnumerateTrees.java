@@ -14,19 +14,27 @@ public class EnumerateTrees {
 
   // Time: O(2^n), Space: O(h)
   public static List<BinaryTreeNode<Integer>> generateAllBinaryTrees(int numNodes) {
+    return helper(numNodes);
+  }
+
+  private static List<BinaryTreeNode<Integer>> helper(int numNodes) {
     List<BinaryTreeNode<Integer>> res = new ArrayList<>();
     if (numNodes == 0) {
       res.add(null);
       return res;
     }
-
-    for (int i=0; i<numNodes; i++) {
-      List<BinaryTreeNode<Integer>> left = generateAllBinaryTrees(i);
-      List<BinaryTreeNode<Integer>> right = generateAllBinaryTrees(numNodes-1-i);
-      for (BinaryTreeNode l : left) {
-        for (BinaryTreeNode r : right) {
-          res.add(new BinaryTreeNode<Integer>(0, l, r));
-        }
+    if (numNodes == 1) res.add(new BinaryTreeNode<>(0));
+    else {
+      for (int i = 0; i <= numNodes - 1; i++) {
+        List<BinaryTreeNode<Integer>> left = helper(i);
+        List<BinaryTreeNode<Integer>> right = helper(numNodes - 1 - i);
+        for (BinaryTreeNode<Integer> l : left)
+          for (BinaryTreeNode<Integer> r : right) {
+            BinaryTreeNode<Integer> root = new BinaryTreeNode<>(0);
+            root.left = l;
+            root.right = r;
+            res.add(root);
+          }
       }
     }
     return res;

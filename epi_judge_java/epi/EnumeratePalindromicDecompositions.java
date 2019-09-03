@@ -16,7 +16,7 @@ public class EnumeratePalindromicDecompositions {
 
   public static List<List<String>> palindromeDecompositions(String input) {
     List<List<String>> res = new ArrayList<>();
-    palindrome(input, 0, res, new ArrayList<String>());
+    palindrome(input, 0, res, new ArrayList());
     return res;
   }
 
@@ -24,18 +24,16 @@ public class EnumeratePalindromicDecompositions {
     if (start == input.length()) {
       res.add(new ArrayList<>(strings));
     } else {
-      // from start, build palindrome string
-      for (int i = start; i < input.length(); i++) {
-        String prefix = input.substring(start, i+1);
-        if (isPalindrome(prefix)) {
-          strings.add(prefix);
-          palindrome(input, i+1, res, strings);
+      for (int i=start+1; i<=input.length(); i++) {
+        String sub = input.substring(start, i);
+        if (isPalindrome(sub)) {
+          strings.add(sub);
+          palindrome(input, i, res, strings);
           strings.remove(strings.size() - 1);
         }
       }
     }
   }
-
 
   @EpiTestComparator
       public static BiPredicate < List<List<String>>,

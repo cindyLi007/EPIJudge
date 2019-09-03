@@ -12,15 +12,17 @@ public class PascalTriangle {
 
   public static List<List<Integer>> generatePascalTriangle(int numRows) {
     List<List<Integer>> res = new ArrayList<>();
-    if (numRows<1) return res;
+    if (numRows <=0) return res;
     res.add(Arrays.asList(1));
     for (int i = 1; i < numRows; i++) {
-      List<Integer> curList = new ArrayList<>();
-      List<Integer> prevList = res.get(i - 1);
-      for (int j = 0; j <= i; j++) {
-        curList.add( 0<j && j<i ? prevList.get(j-1) + prevList.get(j) : 1);
+      List<Integer> prev = res.get(i - 1);
+      List<Integer> cur = new ArrayList<>();
+      cur.add(prev.get(0));
+      for (int j=1; j<prev.size(); j++) {
+        cur.add(prev.get(j-1) + prev.get(j));
       }
-      res.add(curList);
+      cur.add(prev.get(prev.size()-1));
+      res.add(cur);
     }
     return res;
   }

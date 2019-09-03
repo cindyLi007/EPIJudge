@@ -11,14 +11,11 @@ public class MatrixRotation {
     int N=squareMatrix.size()-1;
     for (int i = 0; i < squareMatrix.size() / 2; i++) {
       for (int j = i; j < N-i; j++) {
-        int t2 = squareMatrix.get(j).get(i);
-        int t3 = squareMatrix.get(i).get(N-j);
-        int t4 = squareMatrix.get(N-j).get(N-i);
-        int t1 = squareMatrix.get(N-i).get(j);
-        squareMatrix.get(j).set(i, t1);
-        squareMatrix.get(i).set(N-j, t2);
-        squareMatrix.get(N-j).set(N-i, t3);
-        squareMatrix.get(N-i).set(j, t4);
+        int temp = squareMatrix.get(i).get(j);
+        squareMatrix.get(i).set(j, squareMatrix.get(N-j).get(i));
+        squareMatrix.get(N-j).set(i, squareMatrix.get(N-i).get(N-j));
+        squareMatrix.get(N-i).set(N-j, squareMatrix.get(j).get(N-i));
+        squareMatrix.get(j).set(N-i, temp);
       }
     }
   }

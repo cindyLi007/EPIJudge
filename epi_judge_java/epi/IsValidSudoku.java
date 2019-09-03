@@ -3,6 +3,7 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
+import java.util.BitSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,13 +39,13 @@ public class IsValidSudoku {
   }
 
   private static boolean hasDuplicate(List<List<Integer>> partialAssignment, int startRow, int endRow, int startCol, int endCol) {
-    Set<Integer> set = new HashSet<>();
+    BitSet set = new BitSet(10);
     for (int i = startRow; i < endRow; i++) {
       for (int j = startCol; j < endCol; j++) {
-        if (partialAssignment.get(i).get(j)!=0 && set.contains(partialAssignment.get(i).get(j))) {
+        if (partialAssignment.get(i).get(j)!=0 && set.get(partialAssignment.get(i).get(j))) {
           return true;
         }
-        set.add(partialAssignment.get(i).get(j));
+        set.set(partialAssignment.get(i).get(j));
       }
     }
     return false;

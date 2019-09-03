@@ -28,6 +28,32 @@ public class NonuniformRandomNumber {
     return values.get(idx);
   }
 
+  public static void exponentialDistribution(double lamda) {
+    List<Double> res = new ArrayList<>();
+    Random r = new Random();
+    for (int i=0; i<10000; i++) {
+      double u = r.nextDouble();
+
+      // Math.loglp is natural log(e)
+      double e = Math.log1p(1 - u) / (lamda);
+      res.add(e);
+    }
+    Map<Double, Integer> map = new HashMap<>();
+    map.put(0.25, 0);
+    map.put(0.5, 0);
+    map.put(0.75, 0);
+    map.put(1.0, 0);
+    for (Double x : res) {
+      if (x<0.25) map.put(0.25, map.get(0.25) + 1);
+      else if (x<0.5) map.put(0.5, map.get(0.5) + 1);
+      else if (x<0.75) map.put(0.75, map.get(0.75) + 1);
+      else map.put(1.0, map.get(1.0) + 1);
+    }
+    for (Double key : map.keySet()) {
+      System.out.println(key + " " + map.get(key));
+    }
+  }
+
   private static boolean nonuniformRandomNumberGenerationRunner(
       TimedExecutor executor, List<Integer> values, List<Double> probabilities)
       throws Exception {
@@ -74,4 +100,8 @@ public class NonuniformRandomNumber {
                         args, new Object() {}.getClass().getEnclosingClass())
                     .ordinal());
   }
+
+  /*public static void main(String... args) {
+    exponentialDistribution(1.5);
+  }*/
 }
