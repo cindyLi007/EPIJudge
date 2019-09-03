@@ -14,12 +14,13 @@ import java.util.*;
 public class GrayCode {
 
   public static List<Integer> grayCode(int numBits) {
-    /*List<Integer> res = new ArrayList<>();
+    List<Integer> res = new ArrayList<>();
     int size = (int) Math.pow(2, numBits);
     for (int i = 0; i < size; i++) {
       res.add((i >> 1) ^ i);
-    }*/
-    return grayCodeHelper(numBits);
+    }
+    return res;
+    //return grayCodeHelper(numBits);
   }
 
   // Time: O(2^N), because we render 2^N numbers Space: O(N)
@@ -38,7 +39,7 @@ public class GrayCode {
   }
 
   private static boolean differsByOneBit(int x, int y) {
-    // which bits differ between 2 intergers can be calculated by x ^ y, for example, 3^6
+    // which bits differ between 2 integers can be calculated by x ^ y, for example, 3^6
     // 011 ^ 110 = 101, which means there are 2 bits differ. If there is only one bit differ,
     // must satisfy (bitDifference & (bitDifference - 1)) == 0, because there is only one bit is 1
     // so bitDifference - 1 is sth. like 001111, & 010000 must be 0
