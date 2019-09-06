@@ -12,7 +12,7 @@ public class IsStringDecomposableIntoWords {
   // Time: O(N*N), N is the domain's length, Space: O(N)
   public static List<String>
   decomposeIntoDictionaryWords(String domain, Set<String> dictionary) {
-    // this Array is to indicate whether for [0, i+1] can be decomposed to words, if it can, recorde for this decompostion
+    // this Array is to indicate whether for [0, i+1] can be decomposed to words, if it can, record for this decompostion
     // the last word's start ponit
     int[] dp = new int[domain.length()];
     Arrays.fill(dp, -1);
@@ -36,9 +36,9 @@ public class IsStringDecomposableIntoWords {
 
     if (dp[domain.length()-1] == -1) return Collections.emptyList();
     List<String> list = new ArrayList<>();
-    for (int i=domain.length(); i>=0;) {
-      list.add(domain.substring(dp[i], i));
-      i=dp[i];
+    for (int i=domain.length(); i>0;) {
+      list.add(domain.substring(dp[i-1], i));
+      i=dp[i-1];
     }
 
     Collections.reverse(list);

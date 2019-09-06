@@ -18,27 +18,25 @@ public class IsStringInMatrix {
     // dp store the combination of [x, y] in grid and index in pattern, if dp value is true, means this combo has been visited
     // and could not match the pattern
     boolean[][][] dp = new boolean[N][row][col];
-    boolean [][] visited = new boolean[row][col];
     for (int i=0; i<row; i++) {
       for (int j=0; j<col; j++) {
-        if (dfs(grid, i, j, pattern, 0, dp, visited)) return true;
+        if (dfs(grid, i, j, pattern, 0, dp)) return true;
       }
     }
     return false;
   }
 
-  private static boolean dfs(List<List<Integer>> grid, int i, int j, List<Integer> pattern, int idx, boolean[][][] dp, boolean[][] visited) {
+  private static boolean dfs(List<List<Integer>> grid, int i, int j, List<Integer> pattern, int idx, boolean[][][] dp) {
     if (idx==N)
       return true; // run out the string, get a match
-    if (i<0 || j<0 || i==row || j==col || dp[idx][i][j] || pattern.get(idx) != grid.get(i).get(j) || visited[i][j])
+    if (i<0 || j<0 || i==row || j==col || dp[idx][i][j] || pattern.get(idx) != grid.get(i).get(j))
       return false;
 
-    visited[i][j]=true;
-    boolean res = dfs(grid, i-1, j, pattern, idx+1, dp, visited) || dfs(grid, i, j-1, pattern, idx+1, dp, visited)
-                  || dfs(grid, i+1, j, pattern, idx+1, dp, visited) || dfs(grid, i, j+1, pattern, idx+1, dp, visited);
-    if (res) return true;
+    if (dfs(grid, i-1, j, pattern, idx+1, dp) || dfs(grid, i, j-1, pattern, idx+1, dp)
+                  || dfs(grid, i+1, j, pattern, idx+1, dp) || dfs(grid, i, j+1, pattern, idx+1, dp))
+      return true;
+
     dp[idx][i][j]=true;
-    visited[i][j]=false;
     return false;
   }
 
