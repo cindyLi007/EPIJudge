@@ -20,27 +20,44 @@ public class Knapsack {
     }
   }
 
+  /* this is a 2D array, list it here for easy understand below code
+  int N=items.size();
+  int[][] dp = new int[N][capacity+1];
+  for (int i = 0; i < N; i++) {
+    int curItemV = items.get(i).value, curItemW = items.get(i).weight;
+    for (int c = 0; c <= capacity; c++) {
+      if (i == 0) {
+        dp[i][c] = c >= curItemW ? curItemV : 0;
+      } else {
+        // from item [0, i], for capacity j, what is the max value
+        // from item [0, i-1] for capacity j, or [0, i-1] for (capacity - items.get(i).weight) if capacity - items.get(i).weight > 0
+        // NOTICE: can only grab one item once, so here is dp[i-1][j-w], not dp[i][j-w]
+        int woItem = dp[i-1][c];
+        int wiItem = c>=curItemW ? dp[i-1][c-curItemW] + curItemV : 0;
+        dp[i][c] = Math.max(woItem, wiItem);
+      }
+    }
+  }
+  return dp[N - 1][capacity];
+  */
+
   @EpiTest(testfile = "knapsack.tsv")
-  // Time: O(n*w) basicall it the fill in dp time, Space: O(n*w)
+  // Time: O(n*w) basically it is the fill in dp time, Space: O(w)
   public static int optimumSubjectToCapacity(List<Item> items, int capacity) {
-    int N=items.size();
-    int[][] dp = new int[N][capacity+1];
+    int N = items.size();
+    int[] dp = new int[capacity+1];
     for (int i = 0; i < N; i++) {
       int curItemV = items.get(i).value, curItemW = items.get(i).weight;
-      for (int c = 0; c <= capacity; c++) {
+      for (int c = capacity; c >=0; c--) {
         if (i == 0) {
-          dp[i][c] = c >= curItemW ? curItemV : 0;
+          dp[c] = c >= curItemW ? curItemV : 0;
         } else {
-          // from item [0, i], for capacity j, what is the max value
-          // from item [0, i-1] for capacity j, or [0, i-1] for (capacity - items.get(i).weight) if capacity - items.get(i).weight > 0
-          // NOTICE: can only grab one item once, so here is dp[i-1][j-w], not dp[i][j-w]
-          int woItem = dp[i-1][c];
-          int wiItem = c>=curItemW ? dp[i-1][c-curItemW] + curItemV : 0;
-          dp[i][c] = Math.max(woItem, wiItem);
+          int wiItem = c>=curItemW ? dp[c-curItemW] + curItemV : 0;
+          dp[c] = Math.max(dp[c], wiItem);
         }
       }
     }
-    return dp[N - 1][capacity];
+    return dp[capacity];
     /*for (int[] row : dp) Arrays.fill(row, -1);
     return helper(items, capacity, N - 1, dp);*/
   }

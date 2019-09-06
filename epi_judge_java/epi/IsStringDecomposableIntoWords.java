@@ -12,37 +12,37 @@ public class IsStringDecomposableIntoWords {
   // Time: O(N*N), N is the domain's length, Space: O(N)
   public static List<String>
   decomposeIntoDictionaryWords(String domain, Set<String> dictionary) {
-    // this Array is to indicate whether for [0, i+1] can be decomposed to words, if it can, recorde for this decompostion
-    // the last word's start ponit
-    int[] dp = new int[domain.length()];
-    Arrays.fill(dp, -1);
+    int L = domain.length();
+    int[] dp = new int[L];
+    if (dfs(domain, 0, dictionary, dp)) {
+      return build(domain, dp);
+    }
+    return Collections.emptyList();
+  }
 
-    for (int i=0; i<domain.length(); i++) { // L
-      if (dictionary.contains(domain.substring(0, i + 1))) {
-        dp[i] = 0;
-      }
+  private static List<String> build(String domain, int[] dp) {
+    List<String> res = new ArrayList<>();
+    int i=0;
+    while (i<domain.length()) {
+      res.add(domain.substring(i, dp[i]));
+      i=dp[i];
+    }
+    return res;
+  }
 
-      if (dp[i]==-1) { // the substring[0, i+1] is not a word, need decompose it
-        // from i-1 to 0 is faster than from 0 to i-1
-        for (int j=i-1; j>=0; j--) { // L
-          if (dp[j]!=-1 && dictionary.contains(domain.substring(j+1, i+1))){
-            dp[i] = j+1;
-            // whenever we found one decompostion, break, it can improve performance
-            break;
-          }
+  private static boolean dfs(String domain, int index, Set<String> dictionary, int[] dp) {
+    if (index == domain.length()) return true;
+    if (dp[index]!=0) return dp[index] > 0;
+    for (int i = index+1; i<=domain.length(); i++) {
+      if (dictionary.contains(domain.substring(index, i))) {
+        if (dfs(domain, i, dictionary, dp)) {
+          dp[index]=i;
+          return true;
         }
       }
     }
-
-    if (dp[domain.length()-1] == -1) return Collections.emptyList();
-    List<String> list = new ArrayList<>();
-    for (int i=domain.length(); i>=0;) {
-      list.add(domain.substring(dp[i], i));
-      i=dp[i];
-    }
-
-    Collections.reverse(list);
-    return list;
+    dp[index] = -1;
+    return false;
   }
 
   @EpiTest(testfile = "is_string_decomposable_into_words.tsv")

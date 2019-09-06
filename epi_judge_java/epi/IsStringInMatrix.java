@@ -30,14 +30,13 @@ public class IsStringInMatrix {
   private static boolean dfs(List<List<Integer>> grid, int i, int j, List<Integer> pattern, int idx, boolean[][][] dp, boolean[][] visited) {
     if (idx==N)
       return true; // run out the string, get a match
-    if (i<0 || j<0 || i==row || j==col || dp[idx][i][j] || pattern.get(idx) != grid.get(i).get(j) || visited[i][j])
+    if (i<0 || j<0 || i==row || j==col || pattern.get(idx) != grid.get(i).get(j) || visited[i][j])
       return false;
 
     visited[i][j]=true;
     boolean res = dfs(grid, i-1, j, pattern, idx+1, dp, visited) || dfs(grid, i, j-1, pattern, idx+1, dp, visited)
                   || dfs(grid, i+1, j, pattern, idx+1, dp, visited) || dfs(grid, i, j+1, pattern, idx+1, dp, visited);
     if (res) return true;
-    dp[idx][i][j]=true;
     visited[i][j]=false;
     return false;
   }
