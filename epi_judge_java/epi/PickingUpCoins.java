@@ -10,14 +10,42 @@ public class PickingUpCoins {
   // sum[i] is the sum of [0, i]
   static int[] sum;
   static int[][] revenue;
+  static int len;
 
   @EpiTest(testfile = "picking_up_coins.tsv")
+  // Time: O(N*N), Space: O(N*N)
+  // My algorithm is to count player1 revenue as positive, count player2 revenue as negative, save diff of player1 and player2
+  // in dp
   public static int pickUpCoinsWOComputeSum(List<Integer> coins) {
+    len = coins.size();
+    // dp[i][j] stores from [i, j] (player1 revenue - player2 revenue)
+    int[][] dp = new int[len][len];
+    for (int i=len-1; i>=0; i--) for (int j=i; j<len; j++) {
+      if (i==j) {
+        dp[i][j] = coins.get(i);
+      }
+      else if (i+1==j) {
+        dp[i][j] = Math.max(coins.get(i), coins.get(j)) - Math.min(coins.get(i), coins.get(j));
+      }
+      else {// (distance between i and j) > 1
+        dp[i][j] = Math.max(coins.get(i) - dp[i + 1][j], coins.get(j) - dp[i][j - 1]);
+      }
+    }
+    sum=new int[coins.size()];
+    sum[0]=coins.get(0);
+    for (int i = 1; i < coins.size(); i++) {
+        sum[i]=sum[i-1] + coins.get(i);
+    }
+    /** x-y = dp[0][len-1] x is first players' revenue, y is 2nd player's revenue
+    x+y = sum[len-1]
+    2x = sum+dp[0][len-1] */
+    return (dp[0][len-1] + sum[len-1])/2;
+    /*
     return helper(coins, 0, coins.size()-1,
-            new int[coins.size()][coins.size()]);
+            new int[coins.size()][coins.size()]);*/
   }
 
-  // because the enemy will always minimaz mine revenue, we should choose the min revenue of all choice after my this
+  // because the enemy will always minimize mine revenue, we should choose the min revenue of all choice after my this
   // time choice and his next time choice (notice, his next time choice depends on my this time choice
   private static int helper(List<Integer> coins, int start, int end, int[][] r) {
     if (start>end) return 0;

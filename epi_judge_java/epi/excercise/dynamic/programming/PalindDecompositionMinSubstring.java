@@ -18,7 +18,10 @@ public class PalindDecompositionMinSubstring {
     if (s.length()<=1) return s.length();
     int L = s.length();
 
+    // dp[i] save min decomposition number end index i (inclusive)
     int[] dp = new int[L];
+    // index[i] save in the min decomposition, the last word start index, for ex. index[3] = 0 means substring(0, 4) is a
+    // Palindrome
     int[] index = new int[L];
     for (int i=0; i<L; i++) {
       if (isPalindrome(s.substring(0, i+1))) {

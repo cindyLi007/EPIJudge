@@ -9,10 +9,10 @@ import java.util.*;
 
 public class IsStringDecomposableIntoWords {
 
-  // Time: O(N*N), N is the domain's length, Space: O(N)
   public static List<String>
   decomposeIntoDictionaryWords(String domain, Set<String> dictionary) {
     int L = domain.length();
+    // dp[i] store the start index of of next word, for ex. dp[0] = 3 means substring(0,3) is a word, next word start from index 3
     int[] dp = new int[L];
     if (dfs(domain, 0, dictionary, dp)) {
       return build(domain, dp);
@@ -30,10 +30,11 @@ public class IsStringDecomposableIntoWords {
     return res;
   }
 
+  // Time: O(N * N * N) N is for string compare in dictionary because we do cache for middle result, Space: O(N)
   private static boolean dfs(String domain, int index, Set<String> dictionary, int[] dp) {
     if (index == domain.length()) return true;
     if (dp[index]!=0) return dp[index] > 0;
-    for (int i = index+1; i<=domain.length(); i++) {
+    for (int i = domain.length(); i>index; i--) {
       if (dictionary.contains(domain.substring(index, i))) {
         if (dfs(domain, i, dictionary, dp)) {
           dp[index]=i;
