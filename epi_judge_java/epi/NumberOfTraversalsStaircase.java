@@ -5,9 +5,7 @@ import epi.test_framework.GenericTest;
 
 public class NumberOfTraversalsStaircase {
   //@EpiTest(testfile = "number_of_traversals_staircase.tsv")
-
-
-  // Time: O(N*m), Space: O(N)
+  // Time: O(N*m), Space: O(N), N is top, m is possible of step
   public static int numberOfWaysToTop(int top, int maximumStep) {
     return numberOfWaysToTop(top, maximumStep, new int[top+1]);
   }
