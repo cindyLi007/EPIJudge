@@ -5,6 +5,7 @@ import epi.Knapsack;
 import java.util.*;
 
 /**
+ * EPI 16.6 variant 2
  Solve the same problem using O(C) space, where C is the number of weights between 0 and w that can be achieved. For ex.
  if the weights are 100, 200, 200, 500, and w = 853, then C = 9, corresponding to the weights 0,100,200,300,400,500,600,700,800.
  */
