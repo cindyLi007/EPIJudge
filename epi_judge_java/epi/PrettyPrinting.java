@@ -8,7 +8,6 @@ import java.util.List;
 
 public class PrettyPrinting {
   @EpiTest(testfile = "pretty_printing.tsv")
-
   /**
    * fit from last to start words, for each word, find all possible to fit for one line and pick up the optinum
    * Time: O(L*N), Space: O(N)
@@ -16,16 +15,15 @@ public class PrettyPrinting {
   public static int minimumMessiness(List<String> words, int lineLength) {
     int N = words.size();
     int[] dp = new int[N];
-
-    for (int i = 0; i < N; i++) {
-      int remainBlank = lineLength - words.get(i).length();
-      int messiness = (i==0 ? 0 : dp[i-1]) + remainBlank * remainBlank;
-      for (int j=i-1; j>=0; j--) {
-        remainBlank -= words.get(j).length() + 1;
-        if (remainBlank<0) break;
-        messiness = Math.min(messiness, remainBlank * remainBlank + (j == 0 ? 0 : dp[j - 1]));
+    dp[0] = (int)Math.pow(lineLength - words.get(0).length(), 2);
+    for (int i=1; i<N; i++) {
+      int length = words.get(i).length();
+      int temp = (int)Math.pow(lineLength - length, 2) + dp[i-1];
+      for (int j=i-1; j>=0 && length + words.get(j).length() + 1 <= lineLength; j--) {
+        length += words.get(j).length() + 1;
+        temp = Math.min(temp, (int)Math.pow(lineLength - length, 2) + (j>0 ? dp[j-1] : 0));
       }
-      dp[i]=messiness;
+      dp[i] = temp;
     }
     return dp[N-1];
   }
