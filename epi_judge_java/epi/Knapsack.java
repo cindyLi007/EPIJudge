@@ -4,7 +4,6 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Knapsack {

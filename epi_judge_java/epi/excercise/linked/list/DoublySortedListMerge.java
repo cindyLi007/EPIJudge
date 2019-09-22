@@ -19,7 +19,14 @@ public class DoublySortedListMerge {
       run = run.next;
     }
 
-    run.next = l1 == null ? l2 : l1;
+    if (l1 != null) {
+      run.next = l1;
+      l1.prev = run;
+    } else {
+      run.next = l2;
+      l2.prev = run;
+    }
+    res.next.prev = null;
     return res.next;
   }
 
@@ -35,13 +42,23 @@ public class DoublySortedListMerge {
     l5.prev = l3;
     l2.next = l4; l4.prev = l2;
     l4.next = l6; l6.prev = l4;
+    print(l5);
+    print(l6);
 
     DoublyListNode res = merge(l1, l2);
+    DoublyListNode run = l6;
+    print(run);
+  }
 
-    while (res!=null) {
-      System.out.print(res.val + " -> ");
-      res = res.next;
+  private static void print(DoublyListNode run) {
+    StringBuilder sb = new StringBuilder(String.valueOf(run.val));
+    run = run.prev;
+
+    while (run!=null) {
+      sb.insert(0, run.val + "->");
+      run = run.prev;
     }
+    System.out.println(sb);
   }
 }
 
