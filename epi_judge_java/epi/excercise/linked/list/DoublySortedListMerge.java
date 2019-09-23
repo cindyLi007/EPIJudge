@@ -2,7 +2,7 @@ package epi.excercise.linked.list;
 
 public class DoublySortedListMerge {
 
-  public static DoublyListNode merge(DoublyListNode l1, DoublyListNode l2) {
+  public static DoublyListNode merge(DoublyListNode<Integer> l1, DoublyListNode<Integer> l2) {
     DoublyListNode res = new DoublyListNode(0);
     DoublyListNode run = res;
 
@@ -62,11 +62,11 @@ public class DoublySortedListMerge {
   }
 }
 
-class DoublyListNode {
-  int val;
-  DoublyListNode prev, next;
+class DoublyListNode<T> {
+  T val;
+  DoublyListNode<T> prev, next;
 
-  DoublyListNode(int v) {
+  DoublyListNode(T v) {
     this.val = v;
     prev = null;
     next = null;
