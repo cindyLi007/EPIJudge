@@ -23,7 +23,7 @@ public class ReverseKNodes {
       i++;
       if (i % k == 0) {
         // now curr is the last node in the K Group, will be the first node after reverse
-        // prev is always the previous node of reverse, so after this time revserse, we set prev to the last node of this time reverse
+        // prev is always the previous node of reverse, so after this time reverse, we set prev to the last node of this time reverse
         prev = reverse(prev, k);
         curr = prev.next;
       } else {
