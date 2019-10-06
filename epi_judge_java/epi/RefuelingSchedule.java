@@ -8,8 +8,7 @@ import java.util.List;
 public class RefuelingSchedule {
 
   @EpiTest(testfile = "refueling_schedule.tsv")
-  // gallons[i] is the amount of gas in city i, and distances[i] is the distance
-  // city i to the next city.
+  // gallons[i] is the amount of gas in city i, and distances[i] is the distance city i to the next city.
   // Time: O(N), Space: O(1)
   public static int findAmpleCity(List<Integer> gallons,
                                   List<Integer> distances) {
@@ -17,8 +16,8 @@ public class RefuelingSchedule {
     // since we enter this city with min gas number, we should start from this city
     int N = gallons.size();
     int min = 0, remainingGas = 0, res = 0;
-    for (int i=1; i<N; i++) {
-      remainingGas += gallons.get(i-1) - distances.get(i-1) / 20;
+    for (int i = 1; i < N; i++) {
+      remainingGas += gallons.get(i - 1) - distances.get(i - 1) / 20;
       if (remainingGas < min) {
         min = remainingGas;
         res = i;
@@ -30,8 +29,9 @@ public class RefuelingSchedule {
 
   public static void main(String[] args) {
     System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+        .runFromAnnotations(
+            args, new Object() {
+            }.getClass().getEnclosingClass())
+        .ordinal());
   }
 }

@@ -4,14 +4,37 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Queue;
 
 public class MatrixConnectedRegions {
 
     // Time: O(V + E)
+    public static void flipColor_BFS(int x, int y, List<List<Boolean>> image) {
+        boolean color = image.get(x).get(y);
+        int M = image.size(), N = image.get(0).size();
+
+        Queue<int[]> queue = new ArrayDeque<>();
+        // always first flip before push it to queue, to avoid duplicate process same point
+        image.get(x).set(y, !color);
+        queue.offer(new int[]{x, y});
+
+        while (!queue.isEmpty()) {
+            int[] point = queue.poll();
+            int i = point[0], j = point[1];
+            for (int[] p : Arrays.asList(new int[]{i+1, j}, new int[]{i-1, j}, new int[]{i, j+1}, new int[]{i, j-1})) {
+                if (p[0] >= 0 && p[0]< M && p[1]>=0 && p[1] < N && image.get(p[0]).get(p[1]) == color) {
+                    image.get(p[0]).set(p[1], !color);
+                    queue.offer(p);
+                }
+            }
+        }
+    }
+
     public static void flipColor(int x, int y, List<List<Boolean>> image) {
-        // Implement this placeholder.
         flipColorHelper(x, y, image, image.get(x).get(y));
     }
 
