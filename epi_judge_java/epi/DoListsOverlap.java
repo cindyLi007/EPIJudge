@@ -16,7 +16,7 @@ public class DoListsOverlap {
     ListNode<Integer> loopStart0 = IsListCyclic.hasCycle(l0);
     ListNode<Integer> loopStart1 = IsListCyclic.hasCycle(l1);
 
-    // case 1, neither of them has cycle
+    // case 1, neither of them has cycle, so we can use regular way to solve this problem
     if (loopStart0 == null && loopStart1 == null) {
       return DoTerminatedListsOverlap.overlappingNoCycleLists(l0, l1);
     }
@@ -28,7 +28,7 @@ public class DoListsOverlap {
 
     // case 3, both have cycle, only they end in same cycle, they have overlapping, otherwise NO overlapping
     ListNode<Integer> run0 = loopStart0;
-    // first check whether they are same cycle, run0 should hit the loopStart1 before loopStart0
+    // first check whether they are same cycle, run0 should hit the loopStart1 before or as the same time of loopStart0
     do {
       run0 = run0.next;
     } while (run0 != loopStart0 && run0 != loopStart1);
@@ -37,8 +37,10 @@ public class DoListsOverlap {
       return null;
     }
 
-    // since they hit to same cycle, they are must overlapping, we need know whether they overlap before cycle or from cycle
-    if (loopStart0 == loopStart1) {
+    // since they hit to same cycle, they are must overlapping, there are 2 scenarios:
+    // 1) they overlap before cycle, must find the unique common node
+    // 2) they overlap from cycle, so either start point of cycle is fine as result
+    if (loopStart0 == loopStart1) { // loop start points are same means they converge before loop starts
       int distance0 = distance(l0, loopStart0);
       int distance1 = distance(l1, loopStart1);
       if (distance0>distance1) {

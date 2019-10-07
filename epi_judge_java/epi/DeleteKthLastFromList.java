@@ -8,20 +8,21 @@ public class DeleteKthLastFromList {
 
   // Assumes L has at least k nodes, deletes the k-th last node in L.
   // Time: O(N), Space: O(1)
+  // this is like a sliding window, first build a window which len == k, 2nd shift this window to the end of the list, then
+  // the left of the window is K away the end of the list
   public static ListNode<Integer> removeKthLast(ListNode<Integer> L, int k) {
-    // the reason we use a dummy head is for case we need remove the 1st node
-    ListNode<Integer> head = new ListNode<>(0, L);
-    ListNode<Integer> slow = head, fast = L;
-    while (k-- > 0) {
-      fast=fast.next;
+    ListNode<Integer> dummy = new ListNode<>(0, L);
+    ListNode<Integer> run = L;
+    while (k-->0) {
+      run=run.next;
     }
-    // there are k nodes between slow and fast, slow is the prev-node of the removed one, which is the (k+1)-th last node in L
-    while (fast!=null) {
-      slow=slow.next;
-      fast=fast.next;
+    L = dummy;
+    while (run!=null) {
+      run=run.next;
+      L=L.next;
     }
-    slow.next = slow.next.next;
-    return head.next;
+    L.next=L.next.next;
+    return dummy.next;
   }
 
   public static void main(String[] args) {

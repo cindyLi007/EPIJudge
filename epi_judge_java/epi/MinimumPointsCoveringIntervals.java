@@ -4,6 +4,7 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class MinimumPointsCoveringIntervals {
@@ -21,17 +22,15 @@ public class MinimumPointsCoveringIntervals {
   @EpiTest(testfile = "minimum_points_covering_intervals.tsv")
 
   public static Integer findMinimumVisits(List<Interval> intervals) {
-    intervals.sort((i1, i2) -> Integer.compare(i1.right, i2.right));
+    intervals.sort(Comparator.comparingInt(i2 -> i2.right));
     if (intervals.size() <=1)
       return intervals.size();
     int res = 1;
-    Interval prev = intervals.get(0);
+    int prev = intervals.get(0).right;
     for (int i = 1; i < intervals.size(); i++) {
-      if (intervals.get(i).left <= prev.right) {
-        continue;
-      } else {
+      if (intervals.get(i).left > prev) {
         res++;
-        prev = intervals.get(i);
+        prev = intervals.get(i).right;
       }
     }
     return res;

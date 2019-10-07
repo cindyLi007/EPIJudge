@@ -7,14 +7,17 @@ import epi.test_framework.TimedExecutor;
 
 public class DoTerminatedListsOverlap {
 
+  // Time: O(N) N is the total nodes in both lists
   public static ListNode<Integer>
   overlappingNoCycleLists(ListNode<Integer> l0, ListNode<Integer> l1) {
-    ListNode<Integer> pa = l0, pb = l1;
-    while (pa!=pb) {
-      pa = pa == null ? l1 : pa.next;
-      pb = pb == null ? l0 : pb.next;
+    ListNode<Integer> p0 = l0, p1 = l1;
+    while (p0 != p1) {
+      if (p0==null) p0 = l1;
+      else p0 = p0.next;
+      if (p1==null) p1 = l0;
+      else p1 = p1.next;
     }
-    return pa;
+    return p0;
   }
 
   @EpiTest(testfile = "do_terminated_lists_overlap.tsv")

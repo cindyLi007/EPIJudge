@@ -10,8 +10,9 @@ import java.util.Stack;
 
 public class LargestRectangleUnderSkyline {
     @EpiTest(testfile = "largest_rectangle_under_skyline.tsv")
-    // keep a sequence of active pillar (strictyly increasing height),
+    // keep a sequence of active pillar (strictly increasing height),
     // when a current height is <= top of the stack, remove the top of the stack
+    // Time: O(N), Space: O(N)
     public static int calculateLargestRectangle(List<Integer> heights) {
         int N = heights.size(), res = 0;
         // store the index, so we can keep track of width and height
@@ -34,6 +35,22 @@ public class LargestRectangleUnderSkyline {
         }
 
         return res;
+    }
+
+    public static int calculateLargestRectangle_1(List<Integer> heights) {
+        Deque<Integer> pillarIndices = new ArrayDeque<>();
+        int maxRectangleArea = 0;
+        for (int i = 0; i <= heights.size(); i++) {
+            int h = i == heights.size() ? 0 : heights.get(i);
+            while (!pillarIndices.isEmpty() && heights.get(pillarIndices.peekLast()) >= h) {
+                int height = heights.get(pillarIndices.removeLast());
+                int right = i - 1;
+                int left = pillarIndices.isEmpty() ? -1 : pillarIndices.peekLast();
+                maxRectangleArea = Math.max(maxRectangleArea, (right - left) * height);
+            }
+            pillarIndices.offerLast(i);
+        }
+        return maxRectangleArea;
     }
 
     private static boolean needPopOfStack(Deque<Integer> activePillars, int currentPillar, List<Integer> heights) {
