@@ -21,13 +21,16 @@ public class ListCyclicRightShift {
     if (k==0) {
       return L;
     }
+    // first make a cycle
     run.next = L;
-    int i = len - k;
-    while (i-->0) {
-      run = run.next;
+
+    int i=len-k;
+    while (i>0) {
+      run=run.next;
+      i--;
     }
     L = run.next;
-    run.next = null;
+    run.next=null;
     return L;
   }
 

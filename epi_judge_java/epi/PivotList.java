@@ -11,31 +11,32 @@ import java.util.List;
 
 public class PivotList {
 
+  // Time: O(N), Space: O(1)
   public static ListNode<Integer> listPivoting(ListNode<Integer> l, int x) {
-    ListNode<Integer> greater = new ListNode<>(0, null);
-    ListNode<Integer> equals = new ListNode<>(0, null);
-    ListNode<Integer> less = new ListNode<>(0, null);
-    ListNode<Integer> greaterHead = greater;
-    ListNode<Integer> lessHead = less;
-    ListNode<Integer> equals1Head = equals;
+    ListNode<Integer> greaterHead = new ListNode<>(0, null);
+    ListNode<Integer> equalHead = new ListNode<>(0, null);
+    ListNode<Integer> lessHead = new ListNode<>(0, null);
+    ListNode<Integer> greaterIter = greaterHead, lessIter = lessHead, equalIter = equalHead;
     ListNode<Integer> iter = l;
     while (iter!=null) {
       if (iter.data.intValue() < x) {
-        less.next = iter;
-        less = iter;
+        lessIter.next = iter;
+        lessIter = iter;
       } else if (iter.data.intValue() == x) {
-        equals.next = iter;
-        equals = iter;
+        equalIter.next = iter;
+        equalIter = iter;
       } else {
-        greater.next = iter;
-        greater = iter;
+        greaterIter.next = iter;
+        greaterIter = iter;
       }
       iter = iter.next;
     }
-    greater.next = null;
-    equals.next = greaterHead.next;
-    less.next = equals1Head.next;
-    return  lessHead.next;
+    greaterIter.next = null;
+    // the order of the following 2 assignments is important, because if there is no equal nodes, now equalHead == equalIter
+    // equalHead.next is null, we will dis-connect greater part
+    equalIter.next = greaterHead.next;
+    lessIter.next = equalHead.next;
+    return lessHead.next;
   }
 
   public static List<Integer> linkedToList(ListNode<Integer> l) {

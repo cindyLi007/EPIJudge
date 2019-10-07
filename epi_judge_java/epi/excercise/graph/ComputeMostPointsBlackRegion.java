@@ -11,8 +11,6 @@ import java.util.Set;
 
 public class ComputeMostPointsBlackRegion {
 
-
-
   public int M, N;
 
   public void computeMaxBlackRegion(List<List<Boolean>> image) {
@@ -45,20 +43,7 @@ public class ComputeMostPointsBlackRegion {
 
   public static void main(String... args) {
     ComputeMostPointsBlackRegion computeMostPointsBlackRegion = new ComputeMostPointsBlackRegion();
-    List<List<Boolean>> image = new ArrayList<>();
-    for (int i=0; i<4; i++) {
-      List<Boolean> cur = new ArrayList<>();
-      if (i==0) {
-        cur.add(true); cur.add(true); cur.add(false); cur.add(false);
-      } else if (i==1) {
-        cur.add(false); cur.add(false); cur.add(true); cur.add(true);
-      } else if (i==2) {
-        cur.add(false); cur.add(true); cur.add(true); cur.add(false);
-      } else {
-        cur.add(true); cur.add(false); cur.add(false); cur.add(true);
-      }
-      image.add(cur);
-    }
+    List<List<Boolean>> image = ComputeMaxBlackRegionMultipleTimes.buildList();
     computeMostPointsBlackRegion.computeMaxBlackRegion(image);
 
   }
