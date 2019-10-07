@@ -1,12 +1,19 @@
 package epi;
 
-import com.sun.corba.se.impl.orbutil.graph.Graph;
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 
 public class GraphClone {
 
@@ -20,22 +27,19 @@ public class GraphClone {
     }
   }
 
-  // Time: O(V + E), Space: O(V)
+  // Time: O(V + E), Space: O(V + E) V is for map, E is for dfs
   public static GraphVertex cloneGraph(GraphVertex graph) {
-    Map<GraphVertex, GraphVertex> visited = new HashMap<>();
+    Map<Integer, GraphVertex> visited = new HashMap<>();
     return cloneGraph(graph, visited);
   }
 
-  private static GraphVertex cloneGraph(GraphVertex graph, Map<GraphVertex, GraphVertex> visited) {
-    if (visited.containsKey(graph)) {
-      return visited.get(graph);
+  private static GraphVertex cloneGraph(GraphVertex graph, Map<Integer, GraphVertex> visited) {
+    if (visited.containsKey(graph.label)) return visited.get(graph.label);
+    visited.put(graph.label, new GraphVertex(graph.label));
+    for (GraphVertex neighbor : graph.edges) {
+      visited.get(graph.label).edges.add(cloneGraph(neighbor, visited));
     }
-    GraphVertex clonedGraph = new GraphVertex(graph.label);
-    visited.put(graph, clonedGraph);
-    for (GraphVertex gv : graph.edges) {
-      clonedGraph.edges.add(cloneGraph(gv, visited));
-    }
-    return clonedGraph;
+    return visited.get(graph.label);
   }
 
   private static List<Integer> copyLabels(List<GraphVertex> edges) {
@@ -58,7 +62,7 @@ public class GraphClone {
         throw new TestFailure("Invalid vertex label");
       }
       List<Integer> label1 = copyLabels(vertex.edges),
-                    label2 = copyLabels(graph.get(vertex.label).edges);
+          label2 = copyLabels(graph.get(vertex.label).edges);
       Collections.sort(label1);
       Collections.sort(label2);
       if (!label1.equals(label2)) {
@@ -106,8 +110,9 @@ public class GraphClone {
 
   public static void main(String[] args) {
     System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+        .runFromAnnotations(
+            args, new Object() {
+            }.getClass().getEnclosingClass())
+        .ordinal());
   }
 }

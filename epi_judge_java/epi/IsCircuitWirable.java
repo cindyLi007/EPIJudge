@@ -10,58 +10,47 @@ import java.util.*;
 public class IsCircuitWirable {
 
   public static class GraphVertex {
-    public int d = -1;
+    public int d = 0;
     public List<GraphVertex> edges = new ArrayList<>();
   }
 
   // Time: O(V + E), Space: O(V)
   public static boolean isAnyPlacementFeasible_dfs(List<GraphVertex> graph) {
-    for (GraphVertex graphVertex : graph) {
-      // if a vertex.d !=-1, that means we have visited in other vertex's path and no violation, we need not do it again
-      // and we could not set an arbitrary color to it
-      if (graphVertex.d == -1 && !dfs(graphVertex, 2)) {
-        return false;
-      }
+    for (GraphVertex origin : graph) {
+      if (origin.d == 0 && !dfs(origin, 1)) return false;
     }
     return true;
   }
 
   private static boolean dfs(GraphVertex graphVertex, int color) {
-    if (graphVertex.d == -1) {
-      graphVertex.d = color;
-      for (GraphVertex vertex : graphVertex.edges) {
-        if (!dfs(vertex, -color)) {
-          return false;
-        }
-      }
-      return true;
+    if (graphVertex.d == color) return true;
+    if (graphVertex.d != 0) return false;
+    graphVertex.d = color;
+    for (GraphVertex neighbor : graphVertex.edges) {
+      if (!dfs(neighbor, -color)) return false;
     }
-    return graphVertex.d == color;
+    return true;
   }
 
   // BFS Time: O(V + E), Space: O(V)
-  public static boolean isAnyPlacementFeasible(List<GraphVertex> graph) {
+  public static boolean isAnyPlacementFeasible_bfs(List<GraphVertex> graph) {
     Queue<GraphVertex> queue = new ArrayDeque<>();
 
     for (GraphVertex graphVertex : graph) {
-      if (graphVertex.d !=-1) {
-        continue;
-      }
       queue.add(graphVertex);
 
       while (!queue.isEmpty()) {
-        GraphVertex cur = queue.remove();
+        GraphVertex cur = queue.poll();
         for (GraphVertex v : cur.edges) {
-          if (v.d == -1) {
+          if (v.d == 0) { // never visited
             v.d = cur.d + 1;
             queue.add(v);
-          } else if (v.d == cur.d){
+          } else if (v.d == cur.d) {
             return false;
           }
         }
       }
     }
-
     return true;
   }
 
@@ -91,13 +80,14 @@ public class IsCircuitWirable {
       graph.get(e.from).edges.add(graph.get(e.to));
     }
 
-    return executor.run(() -> isAnyPlacementFeasible(graph));
+    return executor.run(() -> isAnyPlacementFeasible_bfs(graph));
   }
 
   public static void main(String[] args) {
     System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+        .runFromAnnotations(
+            args, new Object() {
+            }.getClass().getEnclosingClass())
+        .ordinal());
   }
 }
