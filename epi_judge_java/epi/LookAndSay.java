@@ -6,21 +6,25 @@ import epi.test_framework.GenericTest;
 public class LookAndSay {
   @EpiTest(testfile = "look_and_say.tsv")
 
-  // Time: O(n), Space: O(1)
+  // Time: O(n*2^n), Space: O(1)
   public static String lookAndSay(int n) {
-    int count = 1;
     String s = "1";
-    while (count<n) {
+    for (int i = 2; i <= n; i++) {
       StringBuilder sb = new StringBuilder();
-      int j=0;
-      for (int i = 1; i <= s.length(); i++) {
-        if (i==s.length() || s.charAt(i) != s.charAt(i-1)) {
-          sb.append(i-j).append(s.charAt(i-1));
-          j=i;
+      int count = 1;
+      char c = s.charAt(0);
+      for (int j = 1; j <= s.length(); j++) {
+        if (j == s.length()) sb.append(count).append(c);
+        else {
+          if (s.charAt(j) == s.charAt(j - 1)) count++;
+          else {
+            sb.append(count).append(c);
+            c = s.charAt(j);
+            count = 1;
+          }
         }
       }
-      s=sb.toString();
-      count++;
+      s = sb.toString();
     }
     return s;
   }

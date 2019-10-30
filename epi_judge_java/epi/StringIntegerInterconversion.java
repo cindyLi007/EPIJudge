@@ -8,36 +8,29 @@ public class StringIntegerInterconversion {
 
   /**
    * Time: O(N), space: O(N)
+   *
    * @param x
    * @return
    */
   public static String intToString(int x) {
-    StringBuilder sb = new StringBuilder();
     boolean neg = x < 0 ? true : false;
-
-    // for x==0, we must first do, then while, the "while-do" syntax is wrong
-    do {
-      // we must not set x=Math.abs(x) because if x == MIN_VALUE, will overflow
+    StringBuilder sb = new StringBuilder();
+    while (x != 0) {
       sb.append(Math.abs(x % 10));
       x /= 10;
-    } while (x != 0);
-    // Adding a digit to the beginning of a string is expensive, so first append then reverse
-    String res = sb.reverse().toString();
-    return neg ? "-" + res : res;
+    }
+    return sb.length() == 0 ? "0" : (neg ? "-" : "") + sb.reverse().toString();
   }
 
   public static int stringToInt(String s) {
     int res = 0;
-    int start = s.charAt(0) == '-' ? 1 : 0;
-    for (int i = start; i < s.length(); i++) {
-      int digit = s.charAt(i) - '0';
-      // we must keep neg during all parsing to avoid MIN_VALUE overflow
-      if (start==1) {
-        digit*=-1;
-      }
-      res = res * 10 + digit;
+    boolean neg = s.charAt(0) == '-';
+    int i = neg ? 1 : 0;
+    int signal = neg ? -1 : 1;
+    while (i < s.length()) {
+      res = res * 10 + (s.charAt(i++) - '0');
     }
-    return res;
+    return res * signal;
   }
 
   @EpiTest(testfile = "string_integer_interconversion.tsv")
@@ -52,8 +45,9 @@ public class StringIntegerInterconversion {
 
   public static void main(String[] args) {
     System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+        .runFromAnnotations(
+            args, new Object() {
+            }.getClass().getEnclosingClass())
+        .ordinal());
   }
 }
