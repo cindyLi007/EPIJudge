@@ -1,9 +1,12 @@
 package epi.excercise.strings;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
+/**
+ * 判断一个Roman是否是valid 包括2个方面: 是否有效char 相连chars之间的关系
+ * for the 2nd part, smaller char can only appears before consecutive greater char, for ex. I can only appears before V and X
+ * and a same char can appears no more than 3 times
+ */
 public class ValidRoman {
     // Time: O(N), Space: O(1)
     public boolean isValidRoman(String romanInt) {

@@ -54,10 +54,11 @@ public class IsStringInMatrix {
   @EpiTest(testfile = "is_string_in_matrix.tsv")
   public static boolean isPatternContainedInGrid(List<List<Integer>> grid,
                                                  List<Integer> pattern) {
+    Set<Attempt> set = new HashSet<>();
     for (int i = 0; i < grid.size(); ++i) {
       for (int j = 0; j < grid.get(i).size(); ++j) {
         if (isPatternSuffixContainedStartingAtXY(grid, i, j, pattern, 0,
-                                                 new HashSet<>())) {
+                                                 set)) {
           return true;
         }
       }

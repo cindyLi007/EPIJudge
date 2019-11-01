@@ -10,12 +10,7 @@ public class SpreadsheetEncoding {
   @EpiTest(testfile = "spreadsheet_encoding.tsv")
 
   public static int ssDecodeColID(final String col) {
-    int res =0;
-    for (int i=0; i<col.length(); i++) {
-      int i1 = (col.charAt(i) - 'A') + 1;
-      res = res*26 + i1;
-    }
-    return res;
+    return col.chars().reduce(0, (res, c) -> res * 26 + c - 'A' + 1);
   }
 
   public static void main(String[] args) {

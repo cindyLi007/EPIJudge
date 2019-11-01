@@ -21,29 +21,27 @@ public class ReplaceAndRemove {
    */
   public static int replaceAndRemove(int size, char[] s) {
     // 2 rounds, first remove 'b' and compute the final size, 2nd from back to rewrite s change 'a'
-    // remember if the changed array's size > original array's size (insert), should from back to forth, if the changed array's
-    // size < original array's size(delete), should from front to back
-    int j=0, countOfA=0;
-    for (int i=0; i<size; i++) {
+    // remember if the changed array's size > original array's size (insert), should traverse from back to forth,
+    // if the changed array's size < original array's size(delete), should from front to back, if remove and replace involves
+    // insert and delete simutanously, we should traverse multiple times
+    int i=0, j=0, As=0;
+    for (; i<size; i++) {
+      if (s[i]=='a') As++;
       if (s[i]!='b') {
         s[j++]=s[i];
       }
-      if (s[i]=='a') {
-        countOfA++;
-      }
     }
-    if (countOfA==0) return j;
-    int res=j+countOfA;
-    int i=j-1;
+    if (As==0) return j;
+    int res = j+As;
+    i=j-1;
     j=res-1;
-    while (i>=0) {
+    for (; j>i; i--) {
       if (s[i]=='a') {
         s[j--]='d';
         s[j--]='d';
       } else {
-        s[j--]=s[i];
+        s[j--] = s[i];
       }
-      i--;
     }
     return res;
   }

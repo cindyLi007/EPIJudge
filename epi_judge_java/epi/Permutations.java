@@ -2,15 +2,13 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiTestComparator;
-import epi.test_framework.LexicographicalListComparator;
 import epi.test_framework.GenericTest;
+import epi.test_framework.LexicographicalListComparator;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiPredicate;
-import java.util.stream.Collectors;
 
 //
 public class Permutations {
@@ -29,6 +27,7 @@ public class Permutations {
       res.add(new ArrayList<>(A));
     } else {
       for (int i=startIdx; i<A.size(); i++) {
+        // swap相当于choose a number from not visited and put it in pos startIdx
         Collections.swap(A, startIdx, i);
         // A is the swapped list, which is unique
         permutations(A, startIdx+1, res);

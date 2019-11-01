@@ -9,38 +9,33 @@ public class RunLengthCompression {
   // "3e4f2e" => "eeeffffee"
   // aaaabcccaa" => "4a1b3c2a"
   public static String decoding(String s) {
-    if (s.length()==0) return s;
     StringBuilder sb = new StringBuilder();
-    int count=0;
+    int count = 0;
     for (int i = 0; i < s.length(); i++) {
       char c = s.charAt(i);
       if (Character.isDigit(c)) {
         count = count * 10 + (c - '0');
       } else {
-        for (int j=0; j<count; j++) {
+        while (count > 0) {
           sb.append(c);
+          count--;
         }
-        count=0;
       }
     }
     return sb.toString();
   }
 
   public static String encoding(String s) {
-    if (s.length() == 0) return "";
     StringBuilder sb = new StringBuilder();
-    char prev = s.charAt(0);
     int count = 1;
-    for (int i = 1; i < s.length(); i++) {
-      if (s.charAt(i)==prev) {
-        count++;
+    for (int i = 1; i <= s.length(); i++) {
+      if (i == s.length() || s.charAt(i - 1) != s.charAt(i)) {
+        sb.append(count).append(s.charAt(i - 1));
+        count = 1;
       } else {
-        sb.append(count).append(prev);
-        count=1;
-        prev = s.charAt(i);
+        count++;
       }
     }
-    sb.append(count).append(prev);
     return sb.toString();
   }
 
@@ -57,8 +52,9 @@ public class RunLengthCompression {
 
   public static void main(String[] args) {
     System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+        .runFromAnnotations(
+            args, new Object() {
+            }.getClass().getEnclosingClass())
+        .ordinal());
   }
 }

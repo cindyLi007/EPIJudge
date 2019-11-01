@@ -6,29 +6,30 @@ import epi.test_framework.TimedExecutor;
 
 public class ReverseWords {
 
+  // Time: O(N), Space: O(1)
   public static void reverseWords(char[] input) {
-    int N = input.length;
-    reverse(input, 0, N - 1);
-
-    int start = 0, end = 0;
+    reverse(input, 0, input.length - 1);
+    int N = input.length, start = 0, end =0;
     while (start < N) {
       // skip all space char, stop in the 1st non-space pos
-      while (start < end || start < N && input[start] == ' ') {
-        start++;
-      }
+      while (start < N && input[start]==' ') start++;
+
       // skip all non-space char, stop in the 1st space pos which after start
-      while (end < start || end < N && input[end] != ' ') {
-        end++;
+      while (end < start || end < N && input[end]!=' ') end++;
+
+      if (start < N) {
+        reverse(input, start, end-1);
+        // DO NOT forget update start to next char after blank
+        start = end+1;
       }
-      reverse(input, start, end - 1);
     }
   }
 
   private static void reverse(char[] input, int start, int end) {
     while (start < end) {
-      char c = input[start];
+      char temp = input[start];
       input[start++] = input[end];
-      input[end--] = c;
+      input[end--] = temp;
     }
   }
 
