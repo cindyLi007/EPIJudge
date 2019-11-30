@@ -33,6 +33,8 @@ public class KnapsackSaveSpace {
         }
         max = Math.max(temp.get(weight), max);
       }
+      // 注意这里不是替代而是叠加 因为我们还要保留原有的 Entry, TreeMap temp only store all weight-value pair which include use curerent item can reach
+      // weight
       weightValueMap.putAll(temp);
     }
     return max;

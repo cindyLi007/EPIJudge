@@ -2,7 +2,7 @@ package epi.excercise.dynamic.programming;
 
 import java.util.Arrays;
 
-/**
+/** EPI 16.2 variant
  * Define a string t to be an interleaving of string s1 and s2 if there is a way to interleave the char of s1 and s2
  * keeping the left-to-right order of each, to obtain t.
  * Design an algorithm that takes as input strings s1, s2 and t, and determines if t is an interleaving of s1 and s2

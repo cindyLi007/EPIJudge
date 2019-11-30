@@ -27,7 +27,8 @@ public class NQueenMinAttack {
     boolean foundValidOne = false;
 
     for (int col=0; col<n; col++) {
-      if (isValid(n, row, list, col)) {
+      // 如果到达某一层后所有的put 都不能valid，说明这个placement可以导致cover all squares
+      if (isValid(row, list, col)) {
         list.add(col);
         dfs(n, row+1, list, key + col);
         list.remove(list.size() -1);
@@ -39,7 +40,7 @@ public class NQueenMinAttack {
     }
   }
 
-  private boolean isValid(int n, int row, List<Integer> list, int col) {
+  private boolean isValid(int row, List<Integer> list, int col) {
     for (int i = 0; i<row; i++) {
       int diff = Math.abs(list.get(i) - col);
       if (diff==0 || diff == row - i) return false;

@@ -10,25 +10,30 @@ public class IsStringMatrixOnlyOnce {
     row = grid.length;
     col = grid[0].length;
     boolean[][] visited = new boolean[row][col];
-    for (int i=0; i<row; i++) {
-      for (int j=0; j<col; j++) {
-        if (dfs(grid, i, j, pattern, 0, visited)) return true;
+    int[][] dp = new int[row][col];
+    for (int i = 0; i < row; i++) {
+      for (int j = 0; j < col; j++) {
+        if (dfs(grid, i, j, pattern, 0, visited, dp)) return true;
       }
     }
     return false;
   }
 
-  private boolean dfs(int[][] grid, int i, int j, int[] pattern, int offset, boolean[][] visited) {
+  private boolean dfs(int[][] grid, int i, int j, int[] pattern, int offset, boolean[][] visited, int[][] dp) {
     if (offset == N) return true;
-    if (i<0 || j<0 || i==row || j==col || pattern[offset]!=grid[i][j] || visited[i][j]) return false;
-    visited[i][j]=true;
-    if (dfs(grid, i-1, j, pattern, offset+1, visited) ||
-        dfs(grid, i+1, j, pattern, offset+1, visited) ||
-        dfs(grid, i, j-1, pattern, offset+1, visited) ||
-        dfs(grid, i, j+1, pattern, offset+1, visited))
-    return true;
+    if (i < 0 || j < 0 || i == row || j == col || pattern[offset] != grid[i][j] || visited[i][j]) return false;
+    if ((dp[i][j] & (1 << offset)) != 0) {
+      return false;
+    }
+    visited[i][j] = true;
+    if (dfs(grid, i - 1, j, pattern, offset + 1, visited, dp) ||
+        dfs(grid, i + 1, j, pattern, offset + 1, visited, dp) ||
+        dfs(grid, i, j - 1, pattern, offset + 1, visited, dp) ||
+        dfs(grid, i, j + 1, pattern, offset + 1, visited, dp))
+      return true;
 
-    visited[i][j]=false;
+    visited[i][j] = false;
+    dp[i][j] |= (1 << offset);
     return false;
   }
 

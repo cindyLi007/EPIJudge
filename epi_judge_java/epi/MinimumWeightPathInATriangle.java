@@ -20,11 +20,8 @@ public class MinimumWeightPathInATriangle {
 
     for (int i=len-2; i>=0; i--) {
       List<Integer> curLay = triangle.get(i);
-      int right = dp[curLay.size()];
-      for (int idx=curLay.size()-1; idx>=0; idx--) {
-        int min = Math.min(right, dp[idx]);
-        right = dp[idx];
-        dp[idx]=min + curLay.get(idx);
+      for (int j=0; j<curLay.size(); j++) {
+        dp[j] = Math.min(dp[j], dp[j+1]) + curLay.get(j);
       }
     }
 

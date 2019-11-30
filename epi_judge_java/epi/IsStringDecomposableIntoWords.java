@@ -12,7 +12,7 @@ public class IsStringDecomposableIntoWords {
   public static List<String>
   decomposeIntoDictionaryWords(String domain, Set<String> dictionary) {
     int L = domain.length();
-    // dp[i] store the start index of of next word, for ex. dp[0] = 3 means substring(0,3) is a word, next word start from index 3
+    // dp[i] store the start index of next word, for ex. dp[0] = 3 means substring(0,3) is a word, next word start from index 3
     int[] dp = new int[L];
     if (dfs(domain, 0, dictionary, dp)) {
       return build(domain, dp);

@@ -3,7 +3,6 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class PrettyPrinting {
@@ -14,23 +13,22 @@ public class PrettyPrinting {
    */
   public static int minimumMessiness(List<String> words, int lineLength) {
     int N = words.size();
-    int[] dp = new int[N];
-    dp[0] = (int)Math.pow(lineLength - words.get(0).length(), 2);
-    for (int i=1; i<N; i++) {
-      int length = words.get(i).length();
-      int temp = (int)Math.pow(lineLength - length, 2) + dp[i-1];
-      for (int j=i-1; j>=0 && length + words.get(j).length() + 1 <= lineLength; j--) {
-        length += words.get(j).length() + 1;
-        temp = Math.min(temp, (int)Math.pow(lineLength - length, 2) + (j>0 ? dp[j-1] : 0));
+    int[] dp = new int[N + 1];
+    for (int i = 0; i < N; i++) {
+      int len = words.get(i).length();
+      int temp = (int) Math.pow(lineLength - len, 2) + dp[i];
+      for (int j = i - 1; j >= 0 && len + words.get(j).length() + 1 <= lineLength; j--) {
+        len += words.get(j).length() + 1;
+        temp = Math.min(temp, (int) Math.pow(lineLength - len, 2) + dp[j]);
       }
-      dp[i] = temp;
+      dp[i + 1] = temp;
     }
-    return dp[N-1];
+    return dp[N];
   }
 
   private static int minimumMessiness(List<String> words, int idx, int lineLength, int[] dp) {
     // base case
-    if (idx<0) return 0;
+    if (idx < 0) return 0;
 
     if (dp[idx] == -1) {
       int len = 0;
@@ -55,8 +53,9 @@ public class PrettyPrinting {
 
   public static void main(String[] args) {
     System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+        .runFromAnnotations(
+            args, new Object() {
+            }.getClass().getEnclosingClass())
+        .ordinal());
   }
 }

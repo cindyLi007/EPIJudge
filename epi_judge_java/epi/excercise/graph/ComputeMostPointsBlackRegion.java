@@ -3,7 +3,6 @@ package epi.excercise.graph;
 // EPI 18.2 variant 1
 // Design an algorithm for cmputing the black rgegion that contains the most points
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;

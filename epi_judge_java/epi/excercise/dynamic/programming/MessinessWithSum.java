@@ -2,10 +2,9 @@ package epi.excercise.dynamic.programming;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
- * EPI 16.11 Variant 2  Suppose the messiness of a line ending with b blank characters is defined to be b. Can you solve
+ * EPI 16.11 Variant 2 Suppose the messiness of a line ending with b blank characters is defined to be b. Can you solve
  * the messiness minimization problem in O{n) time and O(1) space?
  */
 public class MessinessWithSum {

@@ -1,7 +1,7 @@
 package epi.excercise.dynamic.programming;
 
 /**
- * EPI 16.3 Variant 5
+ * EPI 16.3 Variant 5 6
  * Decimal number is a sequence of digits, i.e., a sequence over {0,1,2,..., 9}. The sequence has to be of length 1 or
  * more, and the first element in the sequence cannot be 0. Call a decimal number D monotone if D[i] <= D[i + 1], 0 <= i < |D|.
  * Write a program which takes as input a positive integer k and computes the number of decimal numbers of length k that are monotone.
@@ -33,7 +33,7 @@ public class Monotone {
       // if number < length, we could not make up a strict monotone number
       for (int j=i; j<=9; j++) {
         // for dp[i][j] which means we could make a length-i number from [1, j], it could append the digit j to all
-        // (length-(i-1) not including j) monotone numbers (dp[i-1][j-1], or replace the last digit of all (length-i not including j)
+        // (length-(i-1) not including j) monotone numbers (dp[i-1][j-1]), or replace the last digit of all (length-i not including j)
         // monotone numbers (dp[i][j-1])
         dp[i][j]=dp[i-1][j-1] + dp[i][j-1];
       }

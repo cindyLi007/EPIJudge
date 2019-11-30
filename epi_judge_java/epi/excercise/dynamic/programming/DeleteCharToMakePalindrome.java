@@ -3,7 +3,7 @@ package epi.excercise.dynamic.programming;
 import java.util.Arrays;
 
 /**
- * EPI 16.2 variant 3 Given a string A, compute the minimum number of characters you need to delete from A ot make the
+ * EPI 16.2 variant 3 Given a string A, compute the minimum number of characters you need to delete from A to make the
  * resulting string a palindrome.
  * Time: O(N*N), Space: O(N*N)
  */

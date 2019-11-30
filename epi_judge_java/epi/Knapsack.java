@@ -47,6 +47,7 @@ public class Knapsack {
     int[] dp = new int[capacity+1];
     for (int i = 0; i < N; i++) {
       int curItemV = items.get(i).value, curItemW = items.get(i).weight;
+      // must descreasing, that is because we need previous line' result
       for (int c = capacity; c >=0; c--) {
         if (i == 0) {
           dp[c] = c >= curItemW ? curItemV : 0;
