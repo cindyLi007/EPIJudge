@@ -2,7 +2,6 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-import sun.security.util.BitArray;
 
 public class SwapBits {
   @EpiTest(testfile = "swap_bits.tsv")

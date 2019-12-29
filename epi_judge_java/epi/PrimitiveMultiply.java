@@ -3,9 +3,6 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
-import static com.sun.javafx.animation.TickCalculation.add;
-import static java.lang.Long.sum;
-
 public class PrimitiveMultiply {
   @EpiTest(testfile = "primitive_multiply.tsv")
   public static long multiply(long x, long y) {
